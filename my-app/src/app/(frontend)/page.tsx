@@ -26,6 +26,9 @@ export default async function HomePage() {
             src="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg"
             width={65}
           />
+          <div>
+            <h1 className="bg-amber-300">あああああ</h1>
+          </div>
         </picture>
         {!user && <h1>Welcome to your new project.</h1>}
         {user && <h1>Welcome back, {user.email}</h1>}

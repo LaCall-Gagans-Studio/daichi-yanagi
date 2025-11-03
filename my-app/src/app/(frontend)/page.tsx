@@ -1,24 +1,41 @@
+// components
 import React from 'react'
-import './styles.css'
 
 // sections
-import HomeLinks from '@/sections/home/home-links'
-import HomeMain from '@/sections/home/home-main'
+import Hero from '@/sections/home-main/hero'
+import News from '@/sections/home-main/news'
+import Candidate from '@/sections/home-main/candidate'
+import Vision from '@/sections/home-main/vision'
+import Policy from '@/sections/home-main/policy'
+import Support from '@/sections/home-main/support'
+import Footer from '@/sections/footer'
 
-export default async function HomePage() {
+export default function HomeMain() {
   return (
-    <div className="w-screen h-screen font-kosugi">
-      <div className="text-black flex w-full h-full">
-        <div id="home-grids" className="bg-ws-primary grow w-1/4">
-          Grids
-        </div>
-        <div id="home-main" className="bg-white w-sm">
-          <HomeMain />
-        </div>
-        <div id="home-links" className="bg-ws-primary grow">
-          <HomeLinks />
-        </div>
-      </div>
+    <div className="w-full h-full bg-white relative text-ws-primary overflow-y-auto">
+      {/* <header className="h-12 w-36 fixed top-0  z-10 bg-ws-primary/50"></header> */}
+      <main className="">
+        {/* --- HERO --- */}
+        <Hero />
+
+        {/* --- NEWS --- */}
+        <News />
+
+        {/* --- CANDIDATE --- */}
+        <Candidate />
+
+        {/* --- VISION --- */}
+        <Vision />
+
+        {/* --- POLICY --- */}
+        <Policy />
+
+        {/* --- CTA --- */}
+        <Support />
+
+        {/* --- FOOTER --- */}
+        <Footer />
+      </main>
     </div>
   )
 }

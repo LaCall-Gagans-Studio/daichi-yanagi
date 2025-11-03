@@ -5,6 +5,7 @@ const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'upload.wikimedia.org' }, // Wikipedia/Commons
+      { protocol: 'https', hostname: 'images.unsplash.com' }, // Wikipedia/Commons
     ],
   },
   webpack: (webpackConfig) => {

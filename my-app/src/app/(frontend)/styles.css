@@ -9,9 +9,20 @@
   --font-kosugi: "Kosugi", sans-serif;
 
   /* colors */
-  --color-ws-primary: #f7c67c;
-  --color-ws-secondary: #9333ea;
-  --color-ws-background: #f3f6f5;
+  --color-ws-primary: #ffc34e;
+  --color-ws-secondary: #f7c67c;
+  --color-ws-background: #ffffff;
+}
+/* #f3f6f5 */
+
+html, body {
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 :root {

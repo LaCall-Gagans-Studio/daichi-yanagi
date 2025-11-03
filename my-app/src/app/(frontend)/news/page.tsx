@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { Suspense } from 'react'
 import Link from 'next/link'
 import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 import { Card, CardContent } from '@/components/ui/card'
@@ -18,7 +19,7 @@ import { newsData } from '@/lib/news'
 
 const PAGE_SIZE = 10
 
-export default function NewsPage() {
+function NewsPageInner() {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const router = useRouter()
@@ -154,6 +155,12 @@ export default function NewsPage() {
       </section>
     </div>
   )
+}
+
+export default function NewsPage() {
+  ;<Suspense fallback={<div className="px-5 py-16 text-sm text-ws-primary/70">読み込み中…</div>}>
+    <NewsPageInner />
+  </Suspense>
 }
 
 function PageDot({ n, active, onClick }: { n: number; active: boolean; onClick: () => void }) {

@@ -33,9 +33,15 @@ import {
   LuInstagram,
 } from 'react-icons/lu'
 
-// sections
-import Hero from './home-main/hero'
-
 export default function HomeGrids() {
-  return <div className="w-full h-full bg-ws-secondary text-9xl">Grids</div>
+  return (
+    <div className="w-full h-full bg-ws-secondary text-5xl flex">
+      <div className="items-center justify-center p-6">
+        Grid <br />
+        Comment <br />
+        System <br />
+        Coming Soon
+      </div>
+    </div>
+  )
 }

@@ -158,9 +158,11 @@ function NewsPageInner() {
 }
 
 export default function NewsPage() {
-  ;<Suspense fallback={<div className="px-5 py-16 text-sm text-ws-primary/70">読み込み中…</div>}>
-    <NewsPageInner />
-  </Suspense>
+  return (
+    <Suspense fallback={<p className="px-5 py-16 text-sm text-ws-primary/70">読み込み中…</p>}>
+      <NewsPageInner />
+    </Suspense>
+  )
 }
 
 function PageDot({ n, active, onClick }: { n: number; active: boolean; onClick: () => void }) {

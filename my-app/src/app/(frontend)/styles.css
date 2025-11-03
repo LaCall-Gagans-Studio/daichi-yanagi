@@ -1,12 +1,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import url('https://fonts.googleapis.com/css2?family=Kosugi&display=swap" rel="stylesheet');
+@import url('https://fonts.googleapis.com/css2?family=Kosugi&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
   /* fonts */
   --font-kosugi: "Kosugi", sans-serif;
+  --font-zen: "Zen Kaku Gothic New", sans-serif;
 
   /* colors */
   --color-ws-primary: #ffc34e;

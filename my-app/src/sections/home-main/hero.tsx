@@ -94,11 +94,7 @@ export default function Hero() {
           <div className="bg-ws-background rounded-2xl col-span-2 p-4 py-6 pt-7 border-2 border-ws-primary">
             <div className="flex items-center justify-center gap-3">
               <div className="flex flex-col gap-1 justify-center grow-3 text-right">
-                <p className="leading-tight font-medium saturate-150">
-                  市長選出馬予定
-                  <br />
-                  無所属
-                </p>
+                <p className="leading-tight font-medium saturate-150">無所属</p>
               </div>
 
               <h1 className="text-4xl text-ws-primary saturate-150 font-bold grow-6">

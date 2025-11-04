@@ -4,6 +4,7 @@ import React from 'react'
 // sections
 import Hero from '@/sections/home-main/hero'
 import News from '@/sections/home-main/news'
+import Grids from '@/sections/home-main/grids'
 import Candidate from '@/sections/home-main/candidate'
 import Vision from '@/sections/home-main/vision'
 import Policy from '@/sections/home-main/policy'
@@ -17,6 +18,9 @@ export default function HomeMain() {
       <main className="">
         {/* --- HERO --- */}
         <Hero />
+
+        {/* --- Grids --- */}
+        <Grids />
 
         {/* --- NEWS --- */}
         <News />

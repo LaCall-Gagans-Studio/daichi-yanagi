@@ -42,7 +42,11 @@ const highlightIconMap = {
 
 export default function Candidate() {
   return (
-    <section aria-labelledby="profile-heading" className="relative mt-6 pt-12 bg-ws-secondary/10">
+    <section
+      id="candidate"
+      aria-labelledby="profile-heading"
+      className="relative mt-6 pt-12 bg-ws-secondary/10"
+    >
       {/* 見出し行 */}
       <div className="flex flex-col items-center justify-between pt-8">
         <h2 className="text-xl text-center text-black flex items-center gap-2">

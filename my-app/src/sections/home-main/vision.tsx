@@ -11,7 +11,10 @@ import { LuArrowRight, LuHandHeart } from 'react-icons/lu'
 
 export default function Vision() {
   return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-b to-ws-primary/70 z-10 via-white from-white py-16 px-6 md:px-12">
+    <section
+      id="vision"
+      className="relative w-full overflow-hidden bg-gradient-to-b to-ws-primary/70 z-10 via-white from-white py-16 px-6 md:px-12"
+    >
       {/* 背景イメージ */}
       <div className="absolute inset-0 -z-10 opacity-25">
         <Image

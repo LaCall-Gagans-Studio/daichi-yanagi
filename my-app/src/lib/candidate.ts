@@ -25,10 +25,10 @@ export const CANDIDATE_PROFILE = {
 // ---- チップ（重点テーマ） ----
 export const CANDIDATE_THEMES: CandidateTheme[] = [
   '#元教員',
-  '教育と子ども',
-  'DX推進',
-  '子育て支援',
-  '#34歳',
+  '#教育と子ども',
+  '#DX推進',
+  '#子育て支援',
+  '#35歳',
   '#子ども食堂',
 ]
 

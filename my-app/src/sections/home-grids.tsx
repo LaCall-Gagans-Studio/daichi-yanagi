@@ -79,7 +79,7 @@ export default function HomeGrids() {
     const out: GridCell[] = [...normalized]
 
     // 3段目の5マス目（idx5）まで長さが足りない場合は spacer で埋める
-    while (out.length < idx5) {
+    while (out.length < 58) {
       out.push({ kind: 'spacer', key: `sp-fill-${out.length}` })
     }
 
@@ -96,18 +96,6 @@ export default function HomeGrids() {
 
   return (
     <div className="w-full h-full bg-ws-secondary relative font-zen overflow-y-auto border-ws-background border-r">
-      {/* ステータス */}
-      {loading && (
-        <div className="absolute inset-0 flex items-center justify-center text-white/80">
-          読み込み中…
-        </div>
-      )}
-      {error && (
-        <div className="absolute inset-0 flex items-center justify-center text-red-100">
-          エラー: {error}
-        </div>
-      )}
-
       {/* グリッド */}
       <div className="grid grid-cols-6">
         {cells.map((cell, i) => {

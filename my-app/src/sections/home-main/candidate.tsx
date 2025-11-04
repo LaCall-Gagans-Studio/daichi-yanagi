@@ -136,7 +136,7 @@ export default function Candidate() {
               variant="outline"
               className="border-ws-primary/30 text-ws-primary hover:bg-ws-primary/10"
             >
-              <Link href="/about">
+              <Link href="/candidate">
                 もっと詳しく <LuArrowRight className="ml-1" />
               </Link>
             </Button>

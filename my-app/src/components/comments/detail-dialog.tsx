@@ -45,7 +45,7 @@ export function DetailDialog({
                 />
                 <span className="text-base font-semibold">{doc.accountId || '匿名'}</span>
               </DialogTitle>
-              <DialogDescription>
+              <DialogDescription className="text-left">
                 {genderLabel(doc.gender)}・{ageLabel(doc.age)}・{districtLabel(doc.district)}
               </DialogDescription>
             </DialogHeader>
@@ -58,7 +58,7 @@ export function DetailDialog({
                 </section>
                 {doc.reply && (
                   <section className="rounded-md border border-ws-primary/30 bg-ws-primary/5 p-3">
-                    <h4 className="text-xs font-semibold text-ws-primary mb-1">運営からの返信</h4>
+                    <h4 className="text-xs font-semibold text-ws-primary mb-1">柳からの返信</h4>
                     <p className="text-sm leading-relaxed whitespace-pre-wrap">{doc.reply}</p>
                   </section>
                 )}
@@ -67,7 +67,7 @@ export function DetailDialog({
               <div className="space-y-4">
                 {doc.reply && (
                   <section className="rounded-md border border-ws-primary/30 bg-ws-primary/5 p-3">
-                    <h4 className="text-xs font-semibold text-ws-primary mb-1">運営からの返信</h4>
+                    <h4 className="text-xs font-semibold text-ws-primary mb-1">柳からの返信</h4>
                     <p className="text-sm leading-relaxed whitespace-pre-wrap">{doc.reply}</p>
                   </section>
                 )}

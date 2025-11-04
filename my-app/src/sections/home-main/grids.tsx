@@ -24,6 +24,9 @@ import { CommentTile, ReplyTile, SpacerTile } from '@/components/comments/commen
 import { DetailDialog, type SelectedEntry } from '@/components/comments/detail-dialog'
 import { CommentForm } from '../../components/comments/comment-form'
 
+// icons
+import { LuNewspaper } from 'react-icons/lu'
+
 // スマホ専用横スライド・グリッド（2列×3行を1ページとして横にスナップ）
 export default function Grids() {
   const [items, setItems] = useState<CommentDoc[]>([])
@@ -62,7 +65,7 @@ export default function Grids() {
   }, [items])
 
   // 2列×3行 = 1ページ6セルに分割
-  const PAGE_COLS = 2
+  const PAGE_COLS = 4
   const PAGE_ROWS = 3
   const PAGE_SIZE = PAGE_COLS * PAGE_ROWS // 6
 
@@ -101,6 +104,14 @@ export default function Grids() {
   return (
     // スマホ優先表示（必要なら lg:hidden などでPC側を隠す）
     <div className="block lg:hidden w-full bg-ws-secondary relative font-zen my-12 py-6">
+      <div className="flex flex-col items-center justify-between my-6">
+        <h2 className="text-2xl text-center text-black flex items-center gap-2">
+          <LuNewspaper />
+          Voice
+        </h2>
+        <p className="text-sm font-medium text-center text-black">みんなの声</p>
+      </div>
+
       {/* 横スクロール・ページャブル領域 */}
       <div
         ref={scrollerRef}
@@ -129,7 +140,7 @@ export default function Grids() {
               "
             >
               {/* 各ページは 2列×3行 */}
-              <div className="grid grid-cols-2">
+              <div className="grid grid-cols-4">
                 {cellsInPage.map((cell, i) => {
                   // 市松模様（ページ単位でもズレないように全体インデックスを計算）
                   const globalIndex = pageIndex * PAGE_SIZE + i

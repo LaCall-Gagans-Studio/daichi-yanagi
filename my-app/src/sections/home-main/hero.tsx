@@ -98,7 +98,7 @@ export default function Hero() {
               </div>
 
               <h1 className="text-4xl text-ws-primary saturate-150 font-bold grow-6">
-                <span className="text-5xl relative before:content-['やなぎ'] before:text-sm before:absolute before:left-1 before:-top-3">
+                <span className="text-5xl relative before:content-['やなぎ'] before:text-sm before:absolute before:left-1 before:-top-4">
                   柳
                 </span>{' '}
                 <span className="relative before:content-['だいち'] before:text-sm before:absolute before:left-3 before:-top-4 before:tracking-widest">
@@ -202,9 +202,7 @@ export default function Hero() {
               {/* {i > 0 && <Separator className="bg-ws-primary/30" />} */}
               <div className="my-1 p-2 text-sm bg-ws-background border-ws-background/15 rounded-md border shadow-2xs flex items-center justify-between hover:bg-ws-primary group">
                 <div className="flex items-center gap-2">
-                  <span className="text-[9px] w-12 text-nowrap text-black/70">
-                    {formatJa(e.start)}
-                  </span>
+                  <span className="text-[9px] text-nowrap text-black/70">{formatJa(e.start)}</span>
                   <Badge
                     variant="outline"
                     className="h-5 px-1 text-[8px] w-12 text-nowrap border-ws-primary/25 text-black/90"

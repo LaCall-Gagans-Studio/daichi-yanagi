@@ -156,7 +156,7 @@ export default function CandidatePages() {
       </section>
 
       {/* Q and A */}
-      <section className="px-4 py-6">
+      {/* <section className="px-4 py-6">
         <h2 className="text-lg font-semibold text-black">Q&amp;A</h2>
         <Separator className="my-4 bg-ws-primary/10" />
         <div className="space-y-3">
@@ -170,7 +170,7 @@ export default function CandidatePages() {
             </Card>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* フッター余白 */}
       <div className="h-8" />

@@ -74,7 +74,7 @@ export default function Hero() {
   return (
     <div className="w-full relative">
       {/* HERO MAIN */}
-      <section className="p-4 relative z-0 h-[90vh] bg-[url(/hero_bg_2.webp)] bg-cover bg-right-top">
+      <section className="p-4 relative z-0 h-[90vh] bg-[url(/hero_bg_3.webp)] bg-cover bg-right-top">
         {/* HERO MAIN 1 */}
         <div className="absolute ">
           <div className=" bg-ws-background/30 border-black p-3 py-4 border-3 text-black ">

@@ -100,14 +100,8 @@ export default function SchedulePage() {
   // 1️⃣ すべて取得
   const all = getUpcomingEvents()
 
-  // 2️⃣ 現在以降のみフィルタ（startが未来）
-  const now = Date.now()
-  const filtered = all.filter((e) => new Date(e.start).getTime() > now)
-
   // 3️⃣ 日付が近い順にソート
-  const sorted = [...filtered].sort(
-    (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
-  )
+  const sorted = [...all].sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
 
   if (sorted.length === 0) {
     return (

@@ -55,13 +55,10 @@ function useCountdown(target?: string) {
 }
 
 export default function Hero() {
-  // --- イベント取得とフィルタリング ---
-  const now = Date.now()
-
   // 全イベントを取得して「未来イベントのみ」＋「日付順ソート」
-  const allEvents = getUpcomingEvents()
-    .filter((e) => new Date(e.start).getTime() > now)
-    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
+  const allEvents = getUpcomingEvents().sort(
+    (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
+  )
 
   // 先頭を next、残りの上位3件を list に
   const next = allEvents[0]

@@ -61,9 +61,9 @@ export default function Candidate() {
           {/* 1. ヘッダー（写真・肩書・要約） */}
           <div className="flex gap-3">
             <img
-              src="/hero_bg_2.webp"
+              src="/hero_bg_4.webp"
               alt="柳大地のポートレート"
-              className="object-cover object-right relative w-20 h-56 shrink-0 overflow-hidden rounded-xl ring-1 ring-ws-primary/15"
+              className="object-cover object-center relative w-20 h-56 shrink-0 overflow-hidden rounded-xl ring-1 ring-ws-primary/15"
             />
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">

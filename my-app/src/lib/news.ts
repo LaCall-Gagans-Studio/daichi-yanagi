@@ -8,10 +8,10 @@ export interface NewsItem {
 
 export const newsData: NewsItem[] = [
   {
-    title: 'Youtube動画を公開しました',
-    date: '2025.11.01',
+    title: 'サイトをリニューアルしました🙌',
+    date: '2025.11.08',
     img: 'https://images.unsplash.com/photo-1559223607-a43c990c692c?ixlib=rb-4.1.0&auto=format&fit=crop&q=80&w=1470',
-    url: 'https://www.youtube.com/watch?v=XXXXXXXX',
+    url: 'https://www.daichi-yanagi.com/',
   },
 ]
 

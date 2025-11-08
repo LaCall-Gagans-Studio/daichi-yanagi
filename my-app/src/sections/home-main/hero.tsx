@@ -98,7 +98,7 @@ export default function Hero() {
               </div>
 
               <h1 className="text-4xl text-ws-primary saturate-150 font-bold grow-6">
-                <span className="text-5xl relative before:content-['やなぎ'] before:text-sm before:absolute before:left-1 before:-top-2">
+                <span className="text-5xl relative before:content-['やなぎ'] before:text-sm before:absolute before:left-1 before:-top-3">
                   柳
                 </span>{' '}
                 <span className="relative before:content-['だいち'] before:text-sm before:absolute before:left-3 before:-top-4 before:tracking-widest">
@@ -207,7 +207,7 @@ export default function Hero() {
                   </span>
                   <Badge
                     variant="outline"
-                    className="h-5 px-1 text-[11px] w-16 text-nowrap border-ws-primary/25 text-black/90"
+                    className="h-5 px-1 text-[8px] w-12 text-nowrap border-ws-primary/25 text-black/90"
                   >
                     {e.type}
                   </Badge>

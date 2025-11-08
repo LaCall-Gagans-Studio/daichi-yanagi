@@ -74,7 +74,7 @@ export default function Hero() {
   return (
     <div className="w-full relative">
       {/* HERO MAIN */}
-      <section className="p-4 relative z-0 h-[90vh] bg-[url(/hero_bg_3.webp)] bg-cover bg-right-top">
+      <section className="p-4 relative z-0 h-[90vh] bg-[url(/hero_bg_3.webp)] bg-cover bg-center">
         {/* HERO MAIN 1 */}
         <div className="absolute ">
           <div className=" bg-ws-background/30 border-black p-3 py-4 border-3 text-black ">
@@ -98,10 +98,10 @@ export default function Hero() {
               </div>
 
               <h1 className="text-4xl text-ws-primary saturate-150 font-bold grow-6">
-                <span className="text-5xl relative before:content-['やなぎ'] before:text-sm before:absolute before:left-1 before:-top-1">
+                <span className="text-5xl relative before:content-['やなぎ'] before:text-sm before:absolute before:left-1 before:-top-2">
                   柳
                 </span>{' '}
-                <span className="relative before:content-['だいち'] before:text-sm before:absolute before:left-3 before:-top-2 before:tracking-widest">
+                <span className="relative before:content-['だいち'] before:text-sm before:absolute before:left-3 before:-top-4 before:tracking-widest">
                   大地
                 </span>
               </h1>

@@ -56,7 +56,7 @@ export default function Policy() {
         <TabsList
           className="
             grid grid-cols-3 w-full justify-start gap-2 rounded-xl
-            bg-ws-primary/5 p-1 border border-ws-primary/10 h-24
+            bg-ws-primary/5 p-1 border border-ws-primary/10 h-auto
           "
         >
           {POLICY_THEMES.map((theme) => {

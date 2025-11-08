@@ -93,17 +93,17 @@ export default function Hero() {
         <div className="absolute gap-2 gap-x-3 inset-x-4 grid -bottom-6 duration-300">
           <div className="bg-ws-background rounded-2xl col-span-2 p-4 py-6 pt-7 border-2 border-ws-primary">
             <div className="flex items-center justify-center gap-3">
-              <div className="flex flex-col gap-1 justify-center grow-3 text-right">
+              <div className="flex flex-col gap-1 justify-end grow-3 text-right">
                 <p className="leading-tight font-medium saturate-150">無所属</p>
               </div>
 
-              <h1 className="text-4xl text-ws-primary saturate-150 font-bold grow-6">
-                <span className="text-5xl relative before:content-['やなぎ'] before:text-sm before:absolute before:left-1 before:-top-4">
-                  柳
-                </span>{' '}
-                <span className="relative before:content-['だいち'] before:text-sm before:absolute before:left-3 before:-top-4 before:tracking-widest">
-                  大地
-                </span>
+              <h1 className="text-ws-primary saturate-150 font-bold grow-6 flex items-end gap-2">
+                <ruby className="text-6xl leading-none">
+                  柳<rt className="text-[0.6rem] tracking-wider text-ws-primary/90">やなぎ</rt>
+                </ruby>
+                <ruby className="text-5xl leading-none pb-[2px]">
+                  大地<rt className="text-[0.55rem] tracking-wider text-ws-primary/90">だいち</rt>
+                </ruby>
               </h1>
             </div>
             <div className="flex flex-wrap px-4 mt-4 gap-2 gap-y-1 [&>*]:border-ws-primary [&>*]:text-ws-primary [&>*]:bg-white [&>*]:hover:bg-ws-primary [&>*]:hover:text-white cursor-pointer duration-300">

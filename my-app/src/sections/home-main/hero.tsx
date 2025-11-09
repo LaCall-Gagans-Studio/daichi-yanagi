@@ -19,13 +19,7 @@ import {
 } from 'react-icons/lu'
 
 // libs
-import {
-  CampaignEvent,
-  getNextEvent,
-  getUpcomingEvents,
-  formatJa,
-  googleCalendarUrl,
-} from '@/lib/schedule'
+import { CampaignEvent, getUpcomingEvents, formatJa, googleCalendarUrl } from '@/lib/schedule'
 import { CANDIDATE_THEMES } from '@/lib/candidate'
 
 function useCountdown(target?: string) {
@@ -47,7 +41,7 @@ function useCountdown(target?: string) {
       setTxt(`${d}日 ${h}時間 ${m}分`)
     }
     tick()
-    const t = setInterval(tick, 1000 * 30) // 30秒更新
+    const t = setInterval(tick, 1000 * 30)
     return () => clearInterval(t)
   }, [target])
 
@@ -55,26 +49,21 @@ function useCountdown(target?: string) {
 }
 
 export default function Hero() {
-  // 全イベントを取得して「未来イベントのみ」＋「日付順ソート」
   const allEvents = getUpcomingEvents().sort(
     (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
   )
 
-  // 先頭を next、残りの上位3件を list に
-  const next = allEvents[0]
-  const list = allEvents.slice(1, 4)
-
+  const hasEvents = allEvents.length > 0
+  const next = hasEvents ? allEvents[0] : undefined
+  const list = hasEvents ? allEvents.slice(1, 4) : []
   const countdown = useCountdown(next?.start)
-
-  if (!next) return null
 
   return (
     <div className="w-full relative">
       {/* HERO MAIN */}
       <section className="p-4 relative z-0 h-[90vh] bg-[url(/hero_bg_3.webp)] bg-cover bg-center">
-        {/* HERO MAIN 1 */}
-        <div className="absolute ">
-          <div className=" bg-ws-background/30 border-black p-3 py-4 border-3 text-black ">
+        <div className="absolute">
+          <div className="bg-ws-background/30 border-black p-3 py-4 border-3 text-black">
             <h1 className="text-4xl mb-1 font-bold leading-tight tracking-tight">
               未来を、
               <br />
@@ -86,7 +75,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* HERO MAIN 2 */}
         <div className="absolute gap-2 gap-x-3 inset-x-4 grid -bottom-6 duration-300">
           <div className="bg-ws-background rounded-2xl col-span-2 p-4 py-6 pt-7 border-2 border-ws-primary">
             <div className="flex items-center justify-center gap-3">
@@ -103,6 +91,7 @@ export default function Hero() {
                 </ruby>
               </h1>
             </div>
+
             <div className="flex flex-wrap px-4 mt-4 gap-2 gap-y-1 [&>*]:border-ws-primary [&>*]:text-ws-primary [&>*]:bg-white [&>*]:hover:bg-ws-primary [&>*]:hover:text-white cursor-pointer duration-300">
               {CANDIDATE_THEMES.map((t) => (
                 <Badge key={t}>{t}</Badge>
@@ -112,7 +101,7 @@ export default function Hero() {
 
           <Button
             asChild
-            className="bg-ws-primary saturate-150 text-ws-background  hover:bg-ws-background text-lg"
+            className="bg-ws-primary saturate-150 text-ws-background hover:bg-ws-background text-lg"
           >
             <Link
               href="#policy"
@@ -126,9 +115,10 @@ export default function Hero() {
               政策を見る
             </Link>
           </Button>
+
           <Button
             asChild
-            className="bg-ws-background saturate-150 text-ws-background  hover:bg-ws-ws-primary text-lg"
+            className="bg-ws-background saturate-150 text-ws-background hover:bg-ws-ws-primary text-lg"
           >
             <Link
               href="#support"
@@ -148,81 +138,111 @@ export default function Hero() {
       {/* HERO SUB */}
       <section aria-labelledby="nextmeet-heading" className="mt-12 px-4 space-y-3 relative">
         <div className="flex flex-col items-center justify-between">
-          <h2 className="text-xl text-center text-black">NEXT MEET UP!</h2>
+          <h2 id="nextmeet-heading" className="text-xl text-center text-black">
+            NEXT MEET UP!
+          </h2>
           <p className="text-sm font-bold text-center text-ws-primary">直近のスケジュール</p>
         </div>
 
-        {/* メイン（今度の1件） */}
-        <Card className="border-ws-primary/15 bg-ws-background py-2">
-          <CardContent className="p-3">
-            <div className="flex items-center gap-2">
-              <Badge className="bg-ws-primary text-white">{next.type}</Badge>
-              <span className="text-[11px] text-ws-primary font-bold flex items-center gap-1">
-                <LuClock3 /> {countdown || '—'}
-              </span>
-            </div>
-            <h3 className="mt-1 text-base font-semibold line-clamp-2">{next.title}</h3>
-
-            <div className="mt-3 text-xs space-y-3">
-              <div className="flex items-center gap-1 text-black">
-                <LuCalendarDays className="shrink-0" />
-                <span>
-                  {formatJa(next.start)}
-                  {next.end ? ` 〜 ${formatJa(next.end)}` : ''}
-                </span>
-              </div>
-              <div className="flex items-center gap-1 text-black">
-                <LuMapPin className="shrink-0" />
-                <span className="truncate">{next.placeName}</span>
-              </div>
-            </div>
-            <div className="shrink-0 flex items-end gap-2 mt-3">
-              <Button className="border-ws-primary/80 border text-ws-primary hover:bg-ws-primary/10 bg-ws-background text-xs">
-                <Link
-                  href={googleCalendarUrl(next)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center"
-                >
-                  <LuCalendarPlus className="mr-2" />
-                  カレンダーに登録
-                </Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* 次の3件（小リスト） */}
-        <div className="">
-          {list.map((e: CampaignEvent, i) => (
-            <React.Fragment key={e.id}>
-              {/* {i > 0 && <Separator className="bg-ws-primary/30" />} */}
-              <div className="my-1 p-2 text-sm bg-ws-background border-ws-background/15 rounded-md border shadow-2xs flex items-center justify-between hover:bg-ws-primary group">
+        {hasEvents ? (
+          <>
+            {/* 今度の1件 */}
+            <Card className="border-ws-primary/15 bg-ws-background py-2">
+              <CardContent className="p-3">
                 <div className="flex items-center gap-2">
-                  <span className="text-[9px] text-nowrap text-black/70">{formatJa(e.start)}</span>
-                  <Badge
-                    variant="outline"
-                    className="h-5 px-1 text-[8px] w-12 text-nowrap border-ws-primary/25 text-black/90"
-                  >
-                    {e.type}
-                  </Badge>
-                  <div className="mt-0.5 font-medium line-clamp-1 text-xs group-hover:text-ws-background">
-                    {e.title}
-                  </div>
-                  <div className="text-[10px] text-black/80 line-clamp-1">in {e.placeName}</div>
+                  <Badge className="bg-ws-primary text-white">{next!.type}</Badge>
+                  <span className="text-[11px] text-ws-primary font-bold flex items-center gap-1">
+                    <LuClock3 /> {countdown || '—'}
+                  </span>
                 </div>
+
+                <h3 className="mt-1 text-base font-semibold line-clamp-2">{next!.title}</h3>
+
+                <div className="mt-3 text-xs space-y-3">
+                  <div className="flex items-center gap-1 text-black">
+                    <LuCalendarDays className="shrink-0" />
+                    <span>
+                      {formatJa(next!.start)}
+                      {next!.end ? ` 〜 ${formatJa(next!.end)}` : ''}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1 text-black">
+                    <LuMapPin className="shrink-0" />
+                    <span className="truncate">{next!.placeName}</span>
+                  </div>
+                </div>
+
+                <div className="shrink-0 flex items-end gap-2 mt-3">
+                  <Button
+                    className="border-ws-primary/80 border text-ws-primary hover:bg-ws-primary/10 bg-ws-background text-xs"
+                    asChild
+                  >
+                    <Link
+                      href={googleCalendarUrl(next!)}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center"
+                    >
+                      <LuCalendarPlus className="mr-2" />
+                      カレンダーに登録
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* 次の3件 */}
+            <div>
+              {list.map((e: CampaignEvent) => (
+                <div
+                  key={e.id}
+                  className="my-1 p-2 text-sm bg-ws-background border-ws-background/15 rounded-md border shadow-2xs flex items-center justify-between hover:bg-ws-primary group"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-[9px] text-nowrap text-black/70">
+                      {formatJa(e.start)}
+                    </span>
+                    <Badge
+                      variant="outline"
+                      className="h-5 px-1 text-[8px] w-12 text-nowrap border-ws-primary/25 text-black/90"
+                    >
+                      {e.type}
+                    </Badge>
+                    <div className="mt-0.5 font-medium line-clamp-1 text-xs group-hover:text-ws-background">
+                      {e.title}
+                    </div>
+                    <div className="text-[10px] text-black/80 line-clamp-1">in {e.placeName}</div>
+                  </div>
+                </div>
+              ))}
+
+              <div className="py-2 flex justify-center mt-4">
+                <Link
+                  href="/schedule"
+                  className="text-xs inline-flex items-center gap-1 text-ws-primary hover:underline"
+                >
+                  さらに見る <LuChevronRight />
+                </Link>
               </div>
-            </React.Fragment>
-          ))}
-          <div className="py-2 flex justify-center mt-4">
-            <Link
-              href="/schedule"
-              className="text-xs inline-flex items-center gap-1 text-ws-primary hover:underline"
-            >
-              さらに見る <LuChevronRight />
-            </Link>
-          </div>
-        </div>
+            </div>
+          </>
+        ) : (
+          /* イベントがないときの空状態 */
+          <Card className="border-dashed border-ws-primary/40 bg-ws-background/60 text-center py-6">
+            <CardContent>
+              <p className="text-sm text-black/80">直近のイベントは現在ありません。</p>
+              <p className="text-xs text-black/60 mt-1">スケジュールは随時更新されます。</p>
+              <div className="mt-4">
+                <Link
+                  href="/schedule"
+                  className="text-xs inline-flex items-center gap-1 text-ws-primary hover:underline"
+                >
+                  スケジュール一覧へ <LuChevronRight />
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </section>
     </div>
   )

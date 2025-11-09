@@ -107,6 +107,14 @@ export default function SchedulePage() {
     return (
       <div className="w-full px-5 py-16 text-center text-sm text-ws-primary/70">
         現在、予定されているスケジュールはありません。
+        <div className="py-6 flex justify-center">
+          <Link
+            href="/"
+            className="text-xs inline-flex items-center gap-1 text-ws-primary hover:underline"
+          >
+            <LuChevronLeft /> トップへ戻る
+          </Link>
+        </div>
       </div>
     )
   }

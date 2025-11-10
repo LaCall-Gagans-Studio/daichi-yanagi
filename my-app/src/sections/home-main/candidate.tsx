@@ -97,13 +97,13 @@ export default function Candidate() {
           {/* 2. 実績・取り組み */}
           <div className="space-y-2">
             <h3 className="text-sm font-semibold">実績・取り組み</h3>
-            <ul className="space-y-1.5">
+            <ul className="space-y-3">
               {CANDIDATE_HIGHLIGHTS.map(({ icon, text }, i) => {
                 const Icon = highlightIconMap[icon] ?? LuTarget
                 return (
                   <li key={i} className="text-sm text-ws-primary/90 flex items-start gap-2">
                     <Icon className="mt-[2px] shrink-0" />
-                    <span>{text}</span>
+                    <span className="font-semibold">{text}</span>
                   </li>
                 )
               })}

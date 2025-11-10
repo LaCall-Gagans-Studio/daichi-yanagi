@@ -66,7 +66,7 @@ export default function Grids() {
 
   // 2列×3行 = 1ページ6セルに分割
   const PAGE_COLS = 4
-  const PAGE_ROWS = 3
+  const PAGE_ROWS = 6
   const PAGE_SIZE = PAGE_COLS * PAGE_ROWS // 6
 
   const pages = useMemo(() => {
@@ -137,6 +137,8 @@ export default function Grids() {
                 snap-start shrink-0
                 w-full
                 px-2
+                text-xs
+                md:text-base
               "
             >
               {/* 各ページは 2列×3行 */}

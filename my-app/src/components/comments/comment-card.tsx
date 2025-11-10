@@ -45,16 +45,16 @@ export function CommentTile({
             className="w-6 h-6 object-contain"
           />
           <div className="gap-0 space-y-0 ml-2 leading-tight">
-            <p className="text-[11px] font-semibold text-black leading-none line-clamp-1">
+            <p className="text-[9px] md:text-[11px] font-semibold text-black leading-none line-clamp-1">
               {meta.accountId || '匿名'}
             </p>
-            <p className="text-[10px] mt-0.5 text-black line-clamp-1">
+            <p className="text-[9px] md:text-[10px] mt-0.5 text-black line-clamp-1">
               {genderLabel(meta.gender)}・{ageLabel(meta.age)}・{districtLabel(meta.district)}
             </p>
           </div>
         </div>
         <div className="mt-1 flex-1">
-          <p className="text-xs text-black leading-snug line-clamp-3">{text}</p>
+          <p className="text-[11px] md:text-xs text-black leading-snug line-clamp-3">{text}</p>
         </div>
       </div>
     </button>

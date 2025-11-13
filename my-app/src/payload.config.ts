@@ -52,12 +52,19 @@ export default buildConfig({
   plugins: [
     payloadCloudPlugin(),
     s3Storage({
-      collections: { media: true },
-      bucket,
+      disableLocalStorage: true, // ← ローカルでも必ず R2 を使う
+      collections: {
+        media: true,
+      },
+      bucket: process.env.R2_BUCKET || '',
       config: {
-        credentials: { accessKeyId, secretAccessKey },
+        credentials: {
+          accessKeyId: process.env.R2_ACCESS_KEY_ID || '',
+          secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || '',
+        },
         region: 'auto',
-        endpoint,
+        endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+        // forcePathStyle: true, // 必要なら
       },
     }),
   ],

@@ -77,18 +77,17 @@ export default async function CandidatePages() {
             </span>
           </p>
 
-          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-[1.1fr_1fr]">
-            <div className="order-2 md:order-1">
-              <Image
-                src="/hero_bg_2.webp"
+          <div className="mt-4 grid grid-cols-1 gap-4">
+            <div className="order-1">
+              <img
+                src={candidate.profile.imgUrl}
                 alt={`${profile.nameJa} のポートレート`}
                 width={640}
                 height={960}
                 className="w-full h-[280px] md:h-[360px] object-cover object-right rounded-xl ring-1 ring-ws-primary/15"
-                priority
               />
             </div>
-            <Card className="order-1 md:order-2 shadow-none border-ws-primary/10">
+            <Card className="order-2 shadow-none border-ws-primary/10">
               <CardHeader className="pb-2">
                 <CardTitle className="text-base">プロフィール</CardTitle>
               </CardHeader>
@@ -117,7 +116,7 @@ export default async function CandidatePages() {
         <p className="text-sm text-ws-primary/80">ダイジェストの要素を拡張表示</p>
         <Separator className="my-4 bg-ws-primary/10" />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1gap-2">
           {highlights.map((h, i) => {
             const Icon = iconMap[h.icon] ?? LuTarget
             return (

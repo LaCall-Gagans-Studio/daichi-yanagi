@@ -263,10 +263,15 @@ export interface Policy {
  */
 export interface Candidate {
   id: number;
+  img?: (number | null) | Media;
   nameJa: string;
   city: string;
   born: string;
   summary: string;
+  vision: {
+    headline: string;
+    body: string;
+  };
   themes?:
     | {
         value: string;
@@ -507,10 +512,17 @@ export interface PoliciesSelect<T extends boolean = true> {
  * via the `definition` "candidates_select".
  */
 export interface CandidatesSelect<T extends boolean = true> {
+  img?: T;
   nameJa?: T;
   city?: T;
   born?: T;
   summary?: T;
+  vision?:
+    | T
+    | {
+        headline?: T;
+        body?: T;
+      };
   themes?:
     | T
     | {

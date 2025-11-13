@@ -13,6 +13,13 @@ export const Candidates: CollectionConfig = {
   fields: [
     // プロフィール
     {
+      name: 'img',
+      label: 'プロフィール画像',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+    },
+    {
       name: 'nameJa',
       label: '氏名（日本語）',
       type: 'text',
@@ -35,6 +42,29 @@ export const Candidates: CollectionConfig = {
       label: 'プロフィール概要',
       type: 'textarea',
       required: true,
+    },
+
+    {
+      name: 'vision',
+      label: 'ビジョン',
+      type: 'group',
+      fields: [
+        {
+          name: 'headline',
+          label: 'メイン見出し',
+          type: 'textarea',
+          required: true,
+          defaultValue: '誰もが関われる まちづくりを。',
+        },
+        {
+          name: 'body',
+          label: '本文',
+          type: 'textarea',
+          required: true,
+          defaultValue:
+            'まちづくりの中心に、もう一度「人」を取り戻したい。すべての人が居場所と出番を感じながら暮らせる鳥取を一緒につくること……',
+        },
+      ],
     },
 
     // 重点テーマ（チップ）

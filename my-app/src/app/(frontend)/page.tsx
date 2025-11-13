@@ -6,7 +6,7 @@ import { Hero } from '@/sections/home-main/hero'
 import News from '@/sections/home-main/news'
 import Grids from '@/sections/home-main/grids'
 import { Candidate } from '@/sections/home-main/candidate'
-import Vision from '@/sections/home-main/vision'
+import { Vision } from '@/sections/home-main/vision'
 import { Policy } from '@/sections/home-main/policy'
 import Support from '@/sections/home-main/support'
 import { Footer } from '@/sections/footer'
@@ -28,7 +28,7 @@ export default async function HomePage() {
     <div className="w-full h-full bg-white relative text-ws-primary overflow-y-auto">
       <main className="">
         {/* --- HERO --- */}
-        <Hero events={events} themes={candidate?.themes ?? []} />
+        <Hero events={events} candidate={candidate} />
 
         {/* --- Grids --- */}
         <Grids />
@@ -40,7 +40,7 @@ export default async function HomePage() {
         <Candidate candidate={candidate} />
 
         {/* --- VISION --- */}
-        <Vision />
+        <Vision vision={candidate.vision} />
 
         {/* --- POLICY --- */}
         <Policy themes={themes} />

@@ -4,12 +4,25 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 
 // icons
 import { LuArrowRight, LuHandHeart } from 'react-icons/lu'
 
-export default function Vision() {
+import { CandidateVision } from '@/lib/candidate'
+
+export function Vision({ vision }: { vision: CandidateVision }) {
+  const { headline, body } = vision
+
+  // 改行入りテキストを <br /> に展開
+  const renderWithBreaks = (text: string) => {
+    const lines = text.split('<b>')
+    return lines.map((line, i) => (
+      <React.Fragment key={i}>
+        {line}
+        {i !== lines.length - 1 && <br />}
+      </React.Fragment>
+    ))
+  }
   return (
     <section
       id="vision"
@@ -45,31 +58,13 @@ export default function Vision() {
           />
         </div>
         <h2 className="text-2xl md:text-4xl font-bold text-ws-primary tracking-wide leading-tight">
-          <span className="inline-flex items-center justify-center gap-2">
-            <span>
-              誰もが関われる
-              <br />
-              まちづくりを。
-            </span>
+          <span className="inline-flex items-center justify-center gap-2 whitespace-pre-wrap">
+            <span>{renderWithBreaks(headline)}</span>
           </span>
         </h2>
 
-        <p className="text-base text-black leading-relaxed max-w-3xl mt-2 mx-auto">
-          まちづくりの中心に、
-          <br />
-          もう一度「人」を取り戻したい。
-          <br />
-          私のビジョンは、
-          <br />
-          すべての人が居場所と出番を感じながら
-          <br />
-          暮らせる鳥取を<span className="font-semibold">一緒に</span>つくること。
-          <br />
-          教育、福祉、まちづくりをつなげ、
-          <br />
-          分断ではなく「共に生きるまち」
-          <br />
-          を創ります。
+        <p className="text-base text-black leading-relaxed max-w-3xl mt-2 mx-auto whitespace-pre-wrap">
+          {renderWithBreaks(body)}
         </p>
 
         <div className="flex justify-center">

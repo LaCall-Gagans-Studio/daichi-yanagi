@@ -16,34 +16,9 @@ import {
   LuClock3,
 } from 'react-icons/lu'
 import { type CampaignEvent, formatJa, googleCalendarUrl } from '@/lib/schedule'
+import type { CandidateData } from '@/lib/candidate'
 
-function useCountdown(target?: string) {
-  const [txt, setTxt] = React.useState<string>('')
-
-  React.useEffect(() => {
-    if (!target) return
-    const end = new Date(target).getTime()
-    const tick = () => {
-      const left = end - Date.now()
-      if (left <= 0) {
-        setTxt('まもなく開始')
-        return
-      }
-      const sec = Math.floor(left / 1000)
-      const d = Math.floor(sec / 86400)
-      const h = Math.floor((sec % 86400) / 3600)
-      const m = Math.floor((sec % 3600) / 60)
-      setTxt(`${d}日 ${h}時間 ${m}分`)
-    }
-    tick()
-    const t = setInterval(tick, 1000 * 30)
-    return () => clearInterval(t)
-  }, [target])
-
-  return txt
-}
-
-export function Hero({ events, themes }: { events: CampaignEvent[]; themes: string[] }) {
+export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate: CandidateData }) {
   const allEvents = [...events].sort(
     (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
   )
@@ -53,10 +28,14 @@ export function Hero({ events, themes }: { events: CampaignEvent[]; themes: stri
   const list = hasEvents ? allEvents.slice(1, 4) : []
   const countdown = useCountdown(next?.start)
 
+  const bgStyle = candidate.profile.imgUrl
+    ? { backgroundImage: `url(${candidate.profile.imgUrl})` }
+    : undefined
+
   return (
     <div className="w-full relative">
       {/* HERO MAIN */}
-      <section className="p-4 relative z-0 h-[90vh] bg-[url(/hero_bg_3.webp)] bg-cover bg-center">
+      <section className="p-4 relative z-0 h-[90vh] bg-cover bg-center" style={bgStyle}>
         <div className="absolute">
           <div className="bg-ws-background/30 border-black p-3 py-4 border-3 text-black">
             <h1 className="text-4xl mb-1 font-bold leading-tight tracking-tight">
@@ -88,7 +67,7 @@ export function Hero({ events, themes }: { events: CampaignEvent[]; themes: stri
             </div>
 
             <div className="flex flex-wrap px-4 mt-4 gap-2 gap-y-1 [&>*]:border-ws-primary [&>*]:text-ws-primary [&>*]:bg-white [&>*]:hover:bg-ws-primary [&>*]:hover:text-white cursor-pointer duration-300">
-              {themes.map((t) => (
+              {candidate.themes.map((t) => (
                 <Badge key={t}>{t}</Badge>
               ))}
             </div>
@@ -241,4 +220,31 @@ export function Hero({ events, themes }: { events: CampaignEvent[]; themes: stri
       </section>
     </div>
   )
+}
+
+// カウントダウン用
+function useCountdown(target?: string) {
+  const [txt, setTxt] = React.useState<string>('')
+
+  React.useEffect(() => {
+    if (!target) return
+    const end = new Date(target).getTime()
+    const tick = () => {
+      const left = end - Date.now()
+      if (left <= 0) {
+        setTxt('まもなく開始')
+        return
+      }
+      const sec = Math.floor(left / 1000)
+      const d = Math.floor(sec / 86400)
+      const h = Math.floor((sec % 86400) / 3600)
+      const m = Math.floor((sec % 3600) / 60)
+      setTxt(`${d}日 ${h}時間 ${m}分`)
+    }
+    tick()
+    const t = setInterval(tick, 1000 * 30)
+    return () => clearInterval(t)
+  }, [target])
+
+  return txt
 }

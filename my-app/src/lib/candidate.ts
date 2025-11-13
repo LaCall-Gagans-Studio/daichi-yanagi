@@ -8,6 +8,11 @@ export interface CandidateHighlight {
   text: string
 }
 
+export interface CandidateVision {
+  headline: string
+  body: string
+}
+
 export interface CandidateTimeline {
   year: string
   title: string
@@ -31,10 +36,13 @@ export interface CandidateProfile {
   city: string
   born: string
   summary: string
+  imgUrl?: string
+  imgAlt?: string
 }
 
 export interface CandidateData {
   profile: CandidateProfile
+  vision: CandidateVision
   themes: CandidateTheme[]
   highlights: CandidateHighlight[]
   timeline: CandidateTimeline[]
@@ -42,14 +50,12 @@ export interface CandidateData {
 }
 
 // ---- CMS から取得 ----
-const BASE_URL =
-  process.env.NEXT_PUBLIC_CMS_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+const BASE_URL = process.env.NEXT_PUBLIC_CMS_URL || 'http://localhost:3000'
 
 export async function getCandidate(): Promise<CandidateData | null> {
-  const url = `${BASE_URL}/api/candidates?limit=1`
+  const url = `${BASE_URL}/api/candidates?limit=1&depth=1`
 
   const res = await fetch(url, {
-    // トップページなどで SSR する前提なので軽くキャッシュ
     next: { revalidate: 60 },
   })
 
@@ -62,11 +68,21 @@ export async function getCandidate(): Promise<CandidateData | null> {
   const doc = json.docs?.[0]
   if (!doc) return null
 
+  // img は depth によって string(ID) or オブジェクトなのでガード
+  const imgDoc = typeof doc.img === 'string' ? undefined : doc.img
+
   const profile: CandidateProfile = {
     nameJa: doc.nameJa,
     city: doc.city,
     born: doc.born,
     summary: doc.summary,
+    imgUrl: imgDoc?.sizes?.thumbnail?.url ?? imgDoc?.url ?? undefined,
+    imgAlt: imgDoc?.alt ?? undefined,
+  }
+
+  const vision: CandidateVision = {
+    headline: doc.vision?.headline ?? '',
+    body: doc.vision?.body ?? '',
   }
 
   const themes: CandidateTheme[] = (doc.themes ?? []).map((t: any) => t.value)
@@ -89,6 +105,7 @@ export async function getCandidate(): Promise<CandidateData | null> {
 
   return {
     profile,
+    vision,
     themes,
     highlights,
     timeline,

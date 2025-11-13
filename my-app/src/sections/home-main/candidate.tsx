@@ -56,8 +56,8 @@ export function Candidate({ candidate }: { candidate: CandidateData }) {
           {/* 1. ヘッダー */}
           <div className="flex gap-3">
             <img
-              src="/hero_bg_4.webp"
-              alt={`${profile.nameJa} のポートレート`}
+              src={candidate.profile.imgUrl}
+              alt={candidate.profile.imgAlt}
               className="object-cover object-center relative w-20 h-56 shrink-0 overflow-hidden rounded-xl ring-1 ring-ws-primary/15"
             />
             <div className="min-w-0">

@@ -4,6 +4,7 @@ import { withPayload } from '@payloadcms/next/withPayload'
 const nextConfig = {
   images: {
     remotePatterns: [
+      { protocol: 'https', hostname: 'daichi-yanagi.com' }, // Wikipedia/Commons
       { protocol: 'https', hostname: 'upload.wikimedia.org' }, // Wikipedia/Commons
       { protocol: 'https', hostname: 'images.unsplash.com' }, // Wikipedia/Commons
     ],

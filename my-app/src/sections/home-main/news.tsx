@@ -46,6 +46,7 @@ export default function News({ items }: { items: NewsItem[] }) {
                       width={64}
                       height={64}
                       className="w-8 h-full object-cover object-center rounded-l-2xl"
+                      unoptimized
                     />
                   )}
 

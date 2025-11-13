@@ -2,8 +2,14 @@ import type { CollectionConfig } from 'payload'
 
 export const SocialLinks: CollectionConfig = {
   slug: 'social-links',
+  labels: {
+    singular: 'SNSリンク',
+    plural: 'SNSリンク',
+  },
   admin: {
     useAsTitle: 'name',
+    group: 'グローバル', // サイドバーでのグルーピング名
+    description: 'グローバル',
     defaultColumns: ['name', 'url', 'order', 'active'],
   },
   access: {

@@ -2,7 +2,15 @@ import type { CollectionConfig } from 'payload'
 
 export const Comments: CollectionConfig = {
   slug: 'comments',
-  admin: { useAsTitle: 'comment' },
+  labels: {
+    singular: 'コメント',
+    plural: 'コメント',
+  },
+  admin: {
+    useAsTitle: 'comment',
+    group: '更新情報', // サイドバーでのグルーピング名
+    description: 'サイトコメント',
+  },
   access: {
     read: () => true,
     create: () => true,
@@ -71,7 +79,7 @@ export const Comments: CollectionConfig = {
       name: 'reply',
       type: 'textarea',
       access: { update: ({ req }) => Boolean(req.user) },
-      admin: { description: '運営からの返信（管理者のみ編集可）' },
+      admin: { description: '運営からの返信' },
     },
 
     {

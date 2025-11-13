@@ -35,9 +35,12 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    meta: {
+      title: 'トットリアップデートチャレンジ',
+    },
   },
   cors: ['https:/daichi-yanagi.com/', 'https://localhost:3000/'],
-  collections: [Users, Media, Comments, News, Events, Policies, Candidates, SocialLinks],
+  collections: [Media, Comments, News, Events, Policies, Candidates, SocialLinks, Users],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

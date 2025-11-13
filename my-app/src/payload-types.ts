@@ -67,7 +67,6 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
     media: Media;
     comments: Comment;
     news: News;
@@ -75,13 +74,13 @@ export interface Config {
     policies: Policy;
     candidates: Candidate;
     'social-links': SocialLink;
+    users: User;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     comments: CommentsSelect<false> | CommentsSelect<true>;
     news: NewsSelect<false> | NewsSelect<true>;
@@ -89,6 +88,7 @@ export interface Config {
     policies: PoliciesSelect<false> | PoliciesSelect<true>;
     candidates: CandidatesSelect<false> | CandidatesSelect<true>;
     'social-links': SocialLinksSelect<false> | SocialLinksSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -126,30 +126,8 @@ export interface UserAuthOperations {
   };
 }
 /**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: number;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
-}
-/**
+ * 画像ファイル等
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
@@ -169,6 +147,8 @@ export interface Media {
   focalY?: number | null;
 }
 /**
+ * サイトコメント
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "comments".
  */
@@ -197,7 +177,7 @@ export interface Comment {
   district?: string | null;
   comment: string;
   /**
-   * 運営からの返信（管理者のみ編集可）
+   * 運営からの返信
    */
   reply?: string | null;
   status?: ('draft' | 'published' | 'hidden') | null;
@@ -205,6 +185,8 @@ export interface Comment {
   createdAt: string;
 }
 /**
+ * 活動記録等
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news".
  */
@@ -218,6 +200,8 @@ export interface News {
   createdAt: string;
 }
 /**
+ * 直近のイベント予定
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
  */
@@ -233,6 +217,8 @@ export interface Event {
   createdAt: string;
 }
 /**
+ * 政策提言
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "policies".
  */
@@ -258,6 +244,8 @@ export interface Policy {
   createdAt: string;
 }
 /**
+ * プロフィール・ビジョン・略歴等
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "candidates".
  */
@@ -304,6 +292,8 @@ export interface Candidate {
   createdAt: string;
 }
 /**
+ * グローバル
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "social-links".
  */
@@ -320,16 +310,43 @@ export interface SocialLink {
   createdAt: string;
 }
 /**
+ * サイト管理用ユーザーアカウント
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  /**
+   * 管理者以外変更できません
+   */
+  role: 'admin' | 'editor';
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
   id: number;
   document?:
-    | ({
-        relationTo: 'users';
-        value: number | User;
-      } | null)
     | ({
         relationTo: 'media';
         value: number | Media;
@@ -357,6 +374,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'social-links';
         value: number | SocialLink;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: number | User;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -399,28 +420,6 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
- */
-export interface UsersSelect<T extends boolean = true> {
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -568,6 +567,30 @@ export interface SocialLinksSelect<T extends boolean = true> {
   active?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  role?: T;
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

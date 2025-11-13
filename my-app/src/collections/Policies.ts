@@ -3,8 +3,14 @@ import type { CollectionConfig } from 'payload'
 
 export const Policies: CollectionConfig = {
   slug: 'policies',
+  labels: {
+    singular: '政策',
+    plural: '政策',
+  },
   admin: {
     useAsTitle: 'title',
+    group: 'グローバル', // サイドバーでのグルーピング名
+    description: '政策提言',
     defaultColumns: ['themeId', 'title'],
   },
   access: {

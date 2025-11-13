@@ -28,14 +28,10 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
   const list = hasEvents ? allEvents.slice(1, 4) : []
   const countdown = useCountdown(next?.start)
 
-  const bgStyle = candidate.profile.imgUrl
-    ? { backgroundImage: `url(${candidate.profile.imgUrl})` }
-    : undefined
-
   return (
     <div className="w-full relative">
       {/* HERO MAIN */}
-      <section className="p-4 relative z-0 h-[90vh] bg-cover bg-center" style={bgStyle}>
+      <section className="p-4 relative z-0 h-[90vh] bg-[url(/hero_bg_3.webp)] bg-cover bg-center">
         <div className="absolute">
           <div className="bg-ws-background/30 border-black p-3 py-4 border-3 text-black">
             <h1 className="text-4xl mb-1 font-bold leading-tight tracking-tight">

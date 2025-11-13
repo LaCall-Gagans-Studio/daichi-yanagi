@@ -3,8 +3,14 @@ import type { CollectionConfig } from 'payload'
 
 export const Events: CollectionConfig = {
   slug: 'events',
+  labels: {
+    singular: 'イベント',
+    plural: 'イベント',
+  },
   admin: {
     useAsTitle: 'title',
+    group: '更新情報', // サイドバーでのグルーピング名
+    description: '直近のイベント予定',
     defaultColumns: ['title', 'type', 'start', 'placeName'],
   },
   access: {

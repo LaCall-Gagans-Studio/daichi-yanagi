@@ -3,8 +3,14 @@ import type { CollectionConfig } from 'payload'
 
 export const Candidates: CollectionConfig = {
   slug: 'candidates',
+  labels: {
+    singular: 'プロフィール',
+    plural: 'プロフィール',
+  },
   admin: {
     useAsTitle: 'nameJa',
+    group: 'グローバル', // サイドバーでのグルーピング名
+    description: 'プロフィール・ビジョン・略歴等',
     defaultColumns: ['nameJa', 'city', 'born'],
   },
   access: {

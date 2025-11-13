@@ -4,11 +4,13 @@ import type { CollectionConfig } from 'payload'
 export const News: CollectionConfig = {
   slug: 'news',
   labels: {
-    singular: 'News',
-    plural: 'News',
+    singular: 'お知らせ',
+    plural: 'お知らせ',
   },
   admin: {
     useAsTitle: 'title',
+    group: '更新情報', // サイドバーでのグルーピング名
+    description: '活動記録等',
     defaultColumns: ['title', 'date', 'url', 'updatedAt'],
   },
   access: {

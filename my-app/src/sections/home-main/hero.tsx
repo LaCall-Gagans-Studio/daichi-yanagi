@@ -31,7 +31,7 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
   return (
     <div className="w-full relative">
       {/* HERO MAIN */}
-      <section className="p-4 relative z-0 h-[90vh] bg-[url(/hero_bg_3.webp)] bg-cover bg-center">
+      <section className="p-4 relative z-0 h-[90vh] bg-[url(/hero_bg_3.webp)] bg-cover bg-bottom">
         <div className="absolute">
           <div className="bg-ws-background/30 border-black p-3 py-4 border-3 text-black">
             <h1 className="text-4xl mb-1 font-bold leading-tight tracking-tight">
@@ -45,7 +45,7 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
           </div>
         </div>
 
-        <div className="absolute gap-2 gap-x-3 inset-x-4 grid -bottom-6 duration-300">
+        <div className="absolute gap-2 gap-x-3 inset-x-4 grid inset-y-3/4 duration-300">
           <div className="bg-ws-background rounded-2xl col-span-2 p-4 py-6 pt-7 border-2 border-ws-primary">
             <div className="flex items-center justify-center gap-3">
               <div className="flex flex-col gap-1 justify-end grow-3 text-right">
@@ -106,7 +106,10 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
       </section>
 
       {/* HERO SUB （イベント部分） */}
-      <section aria-labelledby="nextmeet-heading" className="mt-12 px-4 space-y-3 relative">
+      <section
+        aria-labelledby="nextmeet-heading"
+        className="mt-40 md:mt-32 px-4 space-y-3 relative"
+      >
         <div className="flex flex-col items-center justify-between">
           <h2 id="nextmeet-heading" className="text-xl text-center text-black">
             NEXT MEET UP!

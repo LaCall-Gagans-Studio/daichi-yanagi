@@ -20,6 +20,15 @@ import { SocialLinks } from './collections/SocialLinks'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+const bucket = process.env.R2_BUCKET
+const endpoint = process.env.R2_PUBLIC_URL
+const accessKeyId = process.env.R2_ACCESS_KEY_ID
+const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY
+
+if (!bucket || !endpoint || !accessKeyId || !secretAccessKey) {
+  throw new Error('R2 storage env vars are missing')
+}
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -27,7 +36,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  cors: ['https:/daichi-yanagi.com', 'https://localhost:3000/'],
+  cors: ['https:/daichi-yanagi.com/', 'https://localhost:3000/'],
   collections: [Users, Media, Comments, News, Events, Policies, Candidates, SocialLinks],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
@@ -43,17 +52,12 @@ export default buildConfig({
   plugins: [
     payloadCloudPlugin(),
     s3Storage({
-      collections: {
-        media: true, // Apply storage to 'media' collection
-      },
-      bucket: process.env.R2_BUCKET || '',
+      collections: { media: true },
+      bucket,
       config: {
-        credentials: {
-          accessKeyId: process.env.R2_ACCESS_KEY_ID || '',
-          secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || '',
-        },
-        region: 'auto', // Cloudflare R2 uses 'auto' as the region
-        endpoint: process.env.R2_PUBLIC_URL || '',
+        credentials: { accessKeyId, secretAccessKey },
+        region: 'auto',
+        endpoint,
       },
     }),
   ],

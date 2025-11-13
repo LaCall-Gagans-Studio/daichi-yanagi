@@ -8,7 +8,7 @@ import HomeGrids from '@/sections/home-grids'
 import HomeLinks from '@/sections/home-links'
 
 const siteName = '柳大地 公式サイト | Tottori Update Challenge'
-const siteUrl = 'https://example.com' // ← 公開ドメインに差し替え
+const siteUrl = 'https://daichi-yanagi.com' // ← 公開ドメインに差し替え
 const ogImage = `${siteUrl}/og/og-default.jpg` // ← 実ファイルに差し替え
 
 export const metadata: Metadata = {

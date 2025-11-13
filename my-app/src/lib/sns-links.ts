@@ -8,8 +8,7 @@ export interface SocialLink {
   borderColor?: string
 }
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_CMS_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+const BASE_URL = process.env.NEXT_PUBLIC_CMS_URL || 'http://localhost:3000'
 
 export async function getSocialLinks(): Promise<SocialLink[]> {
   const res = await fetch(

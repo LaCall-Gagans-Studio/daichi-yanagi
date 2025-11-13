@@ -13,8 +13,7 @@ export interface CampaignEvent {
 }
 
 // API ベースURL
-const BASE_URL =
-  process.env.NEXT_PUBLIC_CMS_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+const BASE_URL = process.env.NEXT_PUBLIC_CMS_URL || 'http://localhost:3000'
 
 // すべてのイベントを取得
 export async function getAllEvents(): Promise<CampaignEvent[]> {

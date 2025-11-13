@@ -10,7 +10,6 @@ export interface NewsItem {
 // CMS のベースURL（例: https://cms.example.com）
 const BASE_URL =
   process.env.NEXT_PUBLIC_CMS_URL || // 本番用にここを設定
-  process.env.NEXT_PUBLIC_SITE_URL || // 他で使ってるならこれでもOK
   'http://localhost:3000' // 開発中のデフォルト
 
 export async function getAllNews(): Promise<NewsItem[]> {

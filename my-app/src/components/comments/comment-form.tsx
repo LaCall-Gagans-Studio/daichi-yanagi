@@ -5,7 +5,7 @@ import * as React from 'react'
 const AVATAR_MAX = 12
 
 interface CommentFormProps {
-  onSubmitted?: () => void // ✅ 追加（親から送信完了後コールバックを受け取る）
+  onSubmitted?: () => void // ✅ 親から送信完了後コールバックを受け取る
 }
 
 export function CommentForm({ onSubmitted }: CommentFormProps) {
@@ -66,26 +66,54 @@ export function CommentForm({ onSubmitted }: CommentFormProps) {
   }
 
   return (
-    <div className="space-y-3 ">
-      {/* プロフィール番号選択 & プレビュー */}
-      <div className="flex items-center gap-3">
-        <img
-          src={`/avatars/${form.profileNumber}.png`}
-          alt="avatar preview"
-          className="w-12 h-12 rounded-full border"
-        />
-        <select
-          name="profileNumber"
-          value={form.profileNumber}
-          onChange={onChange}
-          className="border rounded px-2 py-1"
-        >
-          {Array.from({ length: AVATAR_MAX }).map((_, i) => (
-            <option key={i + 1} value={i + 1}>
-              プロフィール {i + 1}
-            </option>
-          ))}
-        </select>
+    <div className="space-y-3">
+      {/* プロフィール番号選択 & プレビュー（一覧から選べる） */}
+      <div className="space-y-2">
+        <p className="text-xs text-black/70">アイコンをえらんでください。</p>
+        <div className="flex items-start gap-4">
+          {/* 大きなプレビュー */}
+          <div className="flex flex-col items-center gap-1">
+            <img
+              src={`/avatars/${form.profileNumber}.png`}
+              alt="avatar preview"
+              className="w-14 h-14 rounded-full border border-black/20"
+            />
+            <span className="text-[10px] text-black/60">プロフィール {form.profileNumber}</span>
+          </div>
+
+          {/* 一覧サムネイル */}
+          <div className="grid grid-cols-6 gap-2 flex-1">
+            {Array.from({ length: AVATAR_MAX }).map((_, i) => {
+              const num = i + 1
+              const isActive = form.profileNumber === num
+              return (
+                <button
+                  key={num}
+                  type="button"
+                  onClick={() =>
+                    setForm((f) => ({
+                      ...f,
+                      profileNumber: num,
+                    }))
+                  }
+                  aria-label={`プロフィール ${num}`}
+                  className={[
+                    'w-9 h-9 rounded-full border overflow-hidden flex items-center justify-center transition-all',
+                    isActive
+                      ? 'border-ws-primary ring-2 ring-ws-primary/70 scale-110'
+                      : 'border-black/20 opacity-70 hover:opacity-100 hover:border-ws-primary',
+                  ].join(' ')}
+                >
+                  <img
+                    src={`/avatars/${num}.png`}
+                    alt={`プロフィール ${num}`}
+                    className="w-8 h-8 object-contain"
+                  />
+                </button>
+              )
+            })}
+          </div>
+        </div>
       </div>
 
       {/* 基本フィールド */}

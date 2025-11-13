@@ -20,12 +20,15 @@ import {
   type CommentDoc,
   type GridCell,
 } from '@/components/comments/comment-utils'
-import { CommentTile, ReplyTile, SpacerTile } from '@/components/comments/comment-card'
+import { CommentTile } from '@/components/comments/comment-card'
 import { DetailDialog, type SelectedEntry } from '@/components/comments/detail-dialog'
 import { CommentForm } from '../../components/comments/comment-form'
 
 // icons
 import { LuNewspaper } from 'react-icons/lu'
+
+// 「コメントだけ」取り出すための型
+type CommentCell = Extract<GridCell, { kind: 'comment' }>
 
 // スマホ専用横スライド・グリッド（2列×3行を1ページとして横にスナップ）
 export default function Grids() {
@@ -58,28 +61,32 @@ export default function Grids() {
     }
   }, [])
 
-  // コメントをセルへ（CTAは入れない）
-  const cells = useMemo<(GridCell | null)[]>(() => {
+  // コメントのみをセルへ（reply / spacer は除外）
+  const cells = useMemo<CommentCell[]>(() => {
     const pairs = makePairs(items)
-    return pairsToCells(pairs) // 常に [左, 右]
+    const base = pairsToCells(pairs)
+
+    // kind === 'comment' だけ残す
+    return base.filter((cell): cell is CommentCell => !!cell && cell.kind === 'comment')
   }, [items])
 
-  // 2列×3行 = 1ページ6セルに分割
+  // 2列×3行 = 1ページ6セルに分割 （※元コードのまま 4x6 グリッド設定）
   const PAGE_COLS = 4
   const PAGE_ROWS = 6
-  const PAGE_SIZE = PAGE_COLS * PAGE_ROWS // 6
+  const PAGE_SIZE = PAGE_COLS * PAGE_ROWS
 
   const pages = useMemo(() => {
-    const out: Array<GridCell | null>[] = []
+    const out: Array<CommentCell | null>[] = []
     for (let i = 0; i < cells.length; i += PAGE_SIZE) {
       out.push(cells.slice(i, i + PAGE_SIZE))
     }
     if (out.length === 0) out.push([]) // 空でも1ページ用意
-    // 足りないページの穴を spacer で埋めて 6 枚に
-    return out.map((p, idx) => {
-      const filled = [...p]
+
+    // 足りないマスは null で埋めて PAGE_SIZE 枚に
+    return out.map((p) => {
+      const filled: Array<CommentCell | null> = [...p]
       while (filled.length < PAGE_SIZE) {
-        filled.push({ kind: 'spacer', key: `sp-fill-${idx}-${filled.length}` })
+        filled.push(null)
       }
       return filled
     })
@@ -122,14 +129,9 @@ export default function Grids() {
           snap-x snap-mandatory
           scroll-smooth
           [-webkit-overflow-scrolling:touch]
-          "
+        "
       >
-        <div
-          className="
-            flex
-            w-full
-            "
-        >
+        <div className="flex w-full">
           {pages.map((cellsInPage, pageIndex) => (
             <section
               key={`page-${pageIndex}`}
@@ -141,7 +143,7 @@ export default function Grids() {
                 md:text-base
               "
             >
-              {/* 各ページは 2列×3行 */}
+              {/* 各ページは grid */}
               <div className="grid grid-cols-4">
                 {cellsInPage.map((cell, i) => {
                   // 市松模様（ページ単位でもズレないように全体インデックスを計算）
@@ -152,27 +154,21 @@ export default function Grids() {
                     (row % 2 === 0 && col % 2 === 0) || (row % 2 === 1 && col % 2 === 1)
                   const baseBg = isPrimary ? 'bg-white' : 'bg-ws-secondary'
 
-                  if (!cell || cell.kind === 'spacer') {
-                    return <SpacerTile key={cell ? cell.key : `empty-${i}`} className={baseBg} />
-                  }
-                  if (cell.kind === 'comment') {
+                  // 空マス（spacer代わりのプレーンセル）
+                  if (!cell) {
                     return (
-                      <CommentTile
-                        key={cell.key}
-                        text={cell.text}
-                        meta={cell.meta}
-                        className={baseBg}
-                        onClick={() => setSelected({ type: 'comment', doc: cell.source })}
-                      />
+                      <div key={`empty-${globalIndex}`} className={`aspect-square ${baseBg}`} />
                     )
                   }
-                  // reply
+
+                  // comment だけ描画（reply は cells 作成時に除外済み）
                   return (
-                    <ReplyTile
+                    <CommentTile
                       key={cell.key}
                       text={cell.text}
+                      meta={cell.meta}
                       className={baseBg}
-                      onClick={() => setSelected({ type: 'reply', doc: cell.source })}
+                      onClick={() => setSelected({ type: 'comment', doc: cell.source })}
                     />
                   )
                 })}
@@ -221,7 +217,7 @@ export default function Grids() {
       <div className="mt-4 flex items-center justify-center">
         <Dialog open={openForm} onOpenChange={setOpenForm}>
           <DialogTrigger asChild>
-            <Button className=" bg-ws-background  rounded-2xl w-1/2 text-wrap flex flex-col text-sm h-full text-black hover:bg-white">
+            <Button className=" bg-ws-background rounded-2xl w-1/2 text-wrap flex flex-col text-sm h-full text-black hover:bg-white">
               あなたの声が、
               <br />
               まちをつくる。
@@ -245,7 +241,9 @@ export default function Grids() {
                   try {
                     const docs = await fetchComments(120)
                     setItems(docs)
-                  } catch {}
+                  } catch {
+                    // 失敗しても現状維持
+                  }
                 })()
               }}
             />

@@ -1,4 +1,5 @@
-// storage-adapter-import-placeholder
+// payload.config.ts
+import { s3Storage } from '@payloadcms/storage-s3'
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -7,10 +8,14 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
-// types
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Comments } from './collections/Comments'
+import { News } from './collections/News'
+import { Events } from './collections/Events'
+import { Policies } from './collections/Policies'
+import { Candidates } from './collections/Candidates'
+import { SocialLinks } from './collections/SocialLinks'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -22,7 +27,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Comments],
+  cors: ['https:/daichi-yanagi.com', 'https://localhost:3000/'],
+  collections: [Users, Media, Comments, News, Events, Policies, Candidates, SocialLinks],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -36,6 +42,19 @@ export default buildConfig({
   sharp,
   plugins: [
     payloadCloudPlugin(),
-    // storage-adapter-placeholder
+    s3Storage({
+      collections: {
+        media: true, // Apply storage to 'media' collection
+      },
+      bucket: process.env.R2_BUCKET || '',
+      config: {
+        credentials: {
+          accessKeyId: process.env.R2_ACCESS_KEY_ID || '',
+          secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || '',
+        },
+        region: 'auto', // Cloudflare R2 uses 'auto' as the region
+        endpoint: process.env.R2_PUBLIC_URL || '',
+      },
+    }),
   ],
 })

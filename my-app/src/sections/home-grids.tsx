@@ -2,7 +2,6 @@
 
 import * as React from 'react'
 import { useEffect, useMemo, useState } from 'react'
-import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -14,7 +13,7 @@ import {
 } from '@/components/ui/dialog'
 import { LuChevronLeft, LuSquarePen } from 'react-icons/lu'
 
-// ▼ 共通レイヤ（さっき作ったやつ）
+// ▼ 共通レイヤ
 import {
   fetchComments,
   makePairs,
@@ -22,7 +21,7 @@ import {
   type CommentDoc,
   type GridCell as BaseCell, // comment / reply / spacer の union 基底
 } from '@/components/comments/comment-utils'
-import { CommentTile, ReplyTile, SpacerTile } from '@/components/comments/comment-card'
+import { CommentTile } from '@/components/comments/comment-card'
 import { DetailDialog, type SelectedEntry } from '@/components/comments/detail-dialog'
 
 // 送信用フォーム（既存）
@@ -31,6 +30,9 @@ import { CommentForm } from '../components/comments/comment-form'
 // CTA だけはこのファイル内に保持（UIが専用のため）
 type CtaCell = { kind: 'cta'; key: string; variant: 'pen' | 'slogan' }
 type GridCell = BaseCell | CtaCell
+
+// BaseCell からコメントだけを抜き出すための型
+type CommentCell = Extract<BaseCell, { kind: 'comment' }>
 
 export default function HomeGrids() {
   const [items, setItems] = useState<CommentDoc[]>([])
@@ -60,58 +62,52 @@ export default function HomeGrids() {
     }
   }, [])
 
-  // ---- レイアウト（共通ユーティリティ利用）----
   const cols = 6
-  const cells: GridCell[] = useMemo(() => {
-    // 1) pairs を作って 2マス単位のセル列に展開（常に [左, 右]）
+
+  // ---- BaseCell から「コメントだけ」を取り出す ----
+  const commentCells: CommentCell[] = useMemo(() => {
     const pairs = makePairs(items)
-    const base = pairsToCells(pairs) // comment / reply / spacer（CTAなし）
+    const base = pairsToCells(pairs)
 
-    // null を spacer に変換して GridCell[] に正規化
-    const normalized: GridCell[] = base.map((c, i) => c ?? { kind: 'spacer', key: `sp-norm-${i}` })
+    // kind === 'comment' だけ残す（reply / spacer はここで除外）
+    return base.filter((cell): cell is CommentCell => !!cell && cell.kind === 'comment')
+  }, [items])
 
-    // 2) 3段目の 5・6 マス（1始まり）に CTA を「挿入」する
+  // ---- コメント列の中に CTA を 3行目 5・6 マス目に挿入 ----
+  const cells: GridCell[] = useMemo(() => {
+    const out: GridCell[] = [...commentCells]
+
+    // 3段目の 5・6 マス（1始まり）に CTA を挿入
     const thirdRowStart = 2 * cols // 0始まりで3段目先頭
     const idx5 = thirdRowStart + 4 // 3段目5マス目 → index=16
-    // const idx6 = thirdRowStart + 5;  // ← spliceで一緒に入れるので個別代入は不要
 
-    // base から null を spacer に正規化済みとして: normalized を用意してある前提
-    const out: GridCell[] = [...normalized]
-
-    // 3段目の5マス目（idx5）まで長さが足りない場合は spacer で埋める
-    while (out.length < 58) {
-      out.push({ kind: 'spacer', key: `sp-fill-${out.length}` })
-    }
-
-    // ここで 2 要素をまとめて挿入（以降は右へ押し出される）
+    // コメントが少ないときは、splice の start が length を超えると末尾に追加されるだけなのでOK
     out.splice(
       idx5,
       0,
-      { kind: 'cta', key: 'cta-5', variant: 'pen' },
-      { kind: 'cta', key: 'cta-6', variant: 'slogan' },
+      { kind: 'cta', key: 'cta-pen', variant: 'pen' },
+      { kind: 'cta', key: 'cta-slogan', variant: 'slogan' },
     )
 
     return out
-  }, [items])
+  }, [commentCells])
 
   return (
     <div className="w-full h-full bg-ws-secondary relative font-zen overflow-y-auto border-ws-background border-r">
+      {error && (
+        <div className="p-2 text-xs text-red-600">読み込み中にエラーが発生しました：{error}</div>
+      )}
+
       {/* グリッド */}
       <div className="grid grid-cols-6">
         {cells.map((cell, i) => {
-          // チェッカーボード背景の算出はそのまま
           const row = Math.floor(i / cols)
           const col = i % cols
           const isPrimary = (row % 2 === 0 && col % 2 === 0) || (row % 2 === 1 && col % 2 === 1)
           const baseBg = isPrimary ? 'bg-white' : 'bg-ws-secondary'
 
-          // spacer / 空
-          if (!cell || cell.kind === 'spacer') {
-            return <SpacerTile key={cell ? cell.key : `empty-${i}`} className={baseBg} />
-          }
-
           // CTA
-          if (cell.kind === 'cta') {
+          if ('kind' in cell && cell.kind === 'cta') {
             return (
               <CtaTile
                 key={cell.key}
@@ -123,14 +119,16 @@ export default function HomeGrids() {
                   try {
                     const docs = await fetchComments(60)
                     setItems(docs)
-                  } catch {}
+                  } catch {
+                    // 失敗してもグリッドはそのまま
+                  }
                 }}
               />
             )
           }
 
-          // comment / reply（共通カード）
-          if (cell.kind === 'comment') {
+          // comment（reply / spacer はそもそも配列に入れていない）
+          if ('kind' in cell && cell.kind === 'comment') {
             return (
               <CommentTile
                 key={cell.key}
@@ -142,15 +140,8 @@ export default function HomeGrids() {
             )
           }
 
-          // reply
-          return (
-            <ReplyTile
-              key={cell.key}
-              text={cell.text}
-              className={baseBg}
-              onClick={() => setSelected({ type: 'reply', doc: cell.source })}
-            />
-          )
+          // 念のため
+          return null
         })}
       </div>
 
@@ -209,7 +200,7 @@ function CtaTile({
     <div className={`aspect-square ${baseBg}`}>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className=" bg-ws-primary rounded-none text-wrap flex flex-col text-sm w-full h-full text-black hover:bg-white">
+          <Button className="bg-ws-primary rounded-none text-wrap flex flex-col text-sm w-full h-full text-black hover:bg-white">
             あなたの声が、
             <br />
             まちをつくる。

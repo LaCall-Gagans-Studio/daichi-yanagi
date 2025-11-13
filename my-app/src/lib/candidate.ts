@@ -1,4 +1,5 @@
 // src/lib/candidate.ts
+
 // ---- 型定義 ----
 export type CandidateTheme = string
 
@@ -13,7 +14,6 @@ export interface CandidateTimeline {
   desc?: string
 }
 
-// ▼ 追加: 詳細ページ専用のセクション（見出し＋本文＋箇条書き）
 export interface CandidateDetailSection {
   id: string
   title: string
@@ -21,145 +21,77 @@ export interface CandidateDetailSection {
   bullets?: string[]
 }
 
-// ▼ 追加: Q&A
 export interface CandidateQA {
   q: string
   a: string
 }
 
-// ---- 表示テキスト系（プロフィール概要など） ----
-export const CANDIDATE_PROFILE = {
-  nameJa: '柳 大地',
-  city: '鳥取市',
-  born: '1989年生まれ',
-  summary:
-    '元中高教員。現・鳥取市議（1期）。「共感と安心」「対話と実装」を軸に、財政の好循環と教育アップデートを同時に進める「Tottori Update Challenge」を掲げ、市民とともに走る姿勢を貫く。', // 出典: スライド本文
+export interface CandidateProfile {
+  nameJa: string
+  city: string
+  born: string
+  summary: string
 }
 
-// ---- チップ（重点テーマ） ----
-export const CANDIDATE_THEMES: CandidateTheme[] = [
-  '#元教員',
-  '#教育と子ども',
-  '#DX推進',
-  '#子育て支援',
-  '#35歳',
-  '#子ども食堂',
-]
+export interface CandidateData {
+  profile: CandidateProfile
+  themes: CandidateTheme[]
+  highlights: CandidateHighlight[]
+  timeline: CandidateTimeline[]
+  qa: CandidateQA[]
+}
 
-// ---- 実績・取り組み（ダイジェスト） ----
-export const CANDIDATE_HIGHLIGHTS: CandidateHighlight[] = [
-  {
-    icon: 'shield',
-    text: '医療的ケア児の成長に欠かせない補助用具の支援を拡充。当事者家族の声を受け、市と協議を重ね「抱っこ紐」を新たに補助対象へ。負担軽減につながる制度改善を実現。',
-  },
-  {
-    icon: 'users',
-    text: '教員の長時間勤務の原因となっていた「部活動と下校時間の不一致」を是正。市内中学校の約6割で下校時刻の繰り上げを実現し、授業準備・生徒対話の時間を確保。',
-  },
-  {
-    icon: 'award',
-    text: 'ふるさと納税の取り組みを徹底的に見直し。トップランナー自治体を訪問しノウハウを共有、事業推進を後押し。寄付額は前年から約2億円増となり、過去最高を達成。',
-  },
-  {
-    icon: 'book',
-    text: '教員の時間外勤務状況を「月次で公開」する仕組みを実現。繁忙期の勤務実態が初めて明らかとなり、働き方改革の土台となる「見える化」を前進させた。',
-  },
-]
-// ---- 略歴タイムライン ----
-export const CANDIDATE_TIMELINE: CandidateTimeline[] = [
-  {
-    year: '2025-11-08',
-    title: '記者会見（政策発表・質疑）',
-    desc: 'Tottori Update Challenge の重点課題 vol.1 を発表。',
-  },
-  {
-    year: '2025-08',
-    title: '一般社団法人nicotto 理事に就任',
-  },
-  {
-    year: '2022-12',
-    title: '鳥取市議会議員（1期目）',
-    desc: '現場の声を政策に橋渡しする活動を本格化。',
-  },
-  {
-    year: '2022-03',
-    title: '教員職を退職',
-    desc: '学校づくりから、まちづくりへ。',
-  },
-  {
-    year: '2020-04',
-    title: 'クラーク記念国際高等学校 教諭（鳥取キャンパス・兼務）',
-  },
-  {
-    year: '2015-04',
-    title: '青翔開智中学校・高等学校 教諭',
-  },
-  {
-    year: '2015-03',
-    title: '立命館大学 文学部 卒業',
-  },
-]
+// ---- CMS から取得 ----
+const BASE_URL =
+  process.env.NEXT_PUBLIC_CMS_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
-// ▼ 詳細ページ用セクション
-export const CANDIDATE_DETAIL_SECTIONS: CandidateDetailSection[] = [
-  {
-    id: 'vision',
-    title: 'Tottori Update Challenge ― 変化を楽しむまちへ',
-    body: '人口減少は日本全体の課題。人口最少県の鳥取が変化に挑む意味は大きい。変化の激しい時代に、共感と安心を土台に、まず一歩を走り出し、柔軟かつ誠実に対応できるまちづくりを進めます。',
-  },
-  {
-    id: 'method',
-    title: 'みんなでつくる公約（声を集める3つの活動）',
-    bullets: [
-      'SHABERIBA（しゃべり場）：毎週、市内各地のタウンミーティングで率直な声を聴く',
-      'MANAVIVA（まなび場）：隔週、オンライン/現地でテーマ学習を深める',
-      'NANIMONO（なにもの）：隔週、面白いひとや現場に会いに行く',
-    ],
-  },
-  {
-    id: 'priority',
-    title: '重点課題 vol.1（2025/11/8 発表）',
-    bullets: [
-      '財政：ふるさと納税の倍増、県市連動の公共施設「縮充」、トップセールスで民間投資誘発',
-      '教育：個別最適化学習・探究・STEAM、地域協働の学び場、働き方改革で授業準備と対話時間を確保',
-      '都市開発：駅前×文化施設の連動、7–8年の再開発期間も常時仕掛ける運営',
-    ],
-  },
-  {
-    id: 'people',
-    title: '世代別・分野別の主な施策',
-    bullets: [
-      '未来世代：チャレンジ型奨学金、ユースセンター、多様な地域クラブ、自習環境整備、校内フリースクール',
-      '現役世代：産後ケア拡充、プレイパーク整備、賃金差是正、育休代替員支援、手続き簡略化、託児×テレワーク',
-      '先輩世代：多世代交流、次世代下宿、乗合交通・自動運転、包括的ケア、買物支援、人生会議(ACP)',
-      '教育：教育費1.5倍、体育館空調/トイレ洋式化、市費教員採用、ジェンダーレス制服、ALT常駐、英検補助、海外派遣拡充、生徒会予算強化',
-      '経済：ふるさと納税で地元売上増、砂丘景観/駐車場整備、スタートアップ・事業承継、官民データ連携、チャレンジショップ、海外展開支援',
-      '生活：とりレジ、給水スポット、バス促進day、学校購入品見直し、インクルーシブ遊具、ヤングケアラー支援、理美容費助成',
-      '医療・保健：オンライン小児科、不妊/小児心療拡充、禁煙支援、24h自死対策、依存症対策、医療的ケア児支援',
-      '一次産業：ブランディング、法人化支援、ユニバーサル農園、鳥獣対策、教育農業ファーム、市民農園、産業インフラ、山林活用',
-      '防災：罹災証明の迅速化、避難所空調、対災害自治体連携、多様なニーズの備蓄、ドローン訓練、SNS情報収集体制',
-      'スポーツ：プロ/地域スポーツ支援、アーバンスポーツ空間、スポーツが似合う公共空間、コミュニティ可視化',
-      '大学連携：地域インターン拡充、交通費補助、連携授業・研究体験、起業教育、認定ベンチャー広報支援',
-    ],
-  },
-]
+export async function getCandidate(): Promise<CandidateData | null> {
+  const url = `${BASE_URL}/api/candidates?limit=1`
 
-// Q&A：詳細ページでのみ表示
-export const CANDIDATE_QA: CandidateQA[] = [
-  {
-    q: 'なぜ立候補を決めたのですか？',
-    a: '不安や分断が広がる時代に、そっと寄り添い、対話を重ね、行動で希望を示すリーダーが必要だからです。現場で聴いた声を起点に、みんなで叩いて磨いた案を実装していきます。',
-  },
-  {
-    q: '最初に取り組む優先課題は？',
-    a: '財政の好循環づくりと教育のアップデートを同時並行で進めます。ふるさと納税の戦略強化と官民トップセールスで投資を呼び込み、個別最適学習や地域協働の学び場を広げます。',
-  },
-  {
-    q: '行政DXは何が変わりますか？',
-    a: '相談・申請・予約のオンライン化、庁内データ連携、見える化ダッシュボードでスピードと透明性を上げます。モバイル前提で、待ち時間と二重入力を減らします。',
-  },
-  {
-    q: '若い世代・子どもへのメッセージは？',
-    a: 'あなたの「やってみたい」がまちを動かします。奨学金やユースセンター、地域クラブなど挑戦の土台を整えます。一緒に走りましょう。',
-  },
-]
+  const res = await fetch(url, {
+    // トップページなどで SSR する前提なので軽くキャッシュ
+    next: { revalidate: 60 },
+  })
+
+  if (!res.ok) {
+    console.error('Failed to fetch candidate', res.status)
+    return null
+  }
+
+  const json = await res.json()
+  const doc = json.docs?.[0]
+  if (!doc) return null
+
+  const profile: CandidateProfile = {
+    nameJa: doc.nameJa,
+    city: doc.city,
+    born: doc.born,
+    summary: doc.summary,
+  }
+
+  const themes: CandidateTheme[] = (doc.themes ?? []).map((t: any) => t.value)
+
+  const highlights: CandidateHighlight[] = (doc.highlights ?? []).map((h: any) => ({
+    icon: h.icon,
+    text: h.text,
+  }))
+
+  const timeline: CandidateTimeline[] = (doc.timeline ?? []).map((t: any) => ({
+    year: t.year,
+    title: t.title,
+    desc: t.desc,
+  }))
+
+  const qa: CandidateQA[] = (doc.qa ?? []).map((q: any) => ({
+    q: q.q,
+    a: q.a,
+  }))
+
+  return {
+    profile,
+    themes,
+    highlights,
+    timeline,
+    qa,
+  }
+}

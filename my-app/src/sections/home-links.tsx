@@ -1,61 +1,12 @@
-'use client'
-
-// components
-import * as React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
+import { getSocialLinks } from '@/lib/sns-links'
 
-import { LuChevronRight } from 'react-icons/lu'
-
-// libs
-import { snsLinks } from '@/lib/sns-links'
-
-export interface InnerLinksItem {
-  title: string
-  url: string
-}
-
-const innerLinks: InnerLinksItem[] = [
-  {
-    title: '柳大地について',
-    url: '#candidate',
-  },
-  {
-    title: '私たちのビジョン',
-    url: '#vision',
-  },
-  {
-    title: '政策3本の柱',
-    url: '#policy',
-  },
-  {
-    title: 'ボランティアになる',
-    url: '#support',
-  },
-]
-
-export default function HomeLinks() {
+export default async function HomeLinks() {
+  const snsLinks = await getSocialLinks()
   return (
     <div className="w-full h-full relative">
       <section className="absolute bottom-0 left-0">
-        {/* サイト内リンク */}
-        <ul className="pt-12 px-6 grid grid-cols-1 gap-3">
-          {innerLinks.map((link) => (
-            <li key={link.url} className="">
-              <Link
-                href={link.url}
-                onClick={(e) => {
-                  e.preventDefault()
-                  document.querySelector(link.url)?.scrollIntoView({ behavior: 'smooth' })
-                }}
-                className="text-black font-bold flex items-center gap-1 group hover:font-extrabold"
-              >
-                <LuChevronRight className="font-bold group-hover:translate-x-1 duration-300" />
-                {link.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {/* サイト内リンク（省略） */}
 
         {/* SNS */}
         <ul className="relative w-36 pt-12 pb-6 pl-6 grid grid-cols-2 gap-6 gap-x-1">
@@ -64,10 +15,12 @@ export default function HomeLinks() {
               <a
                 href={sns.url}
                 target="_blank"
-                className={`w-10 h-10 rounded-full flex items-center justify-center ${sns.color} transition-transform hover:scale-110 hover:shadow-md`}
+                rel="noreferrer"
+                className="w-10 h-10 rounded-full flex items-center justify-center transition-transform hover:scale-110 hover:shadow-md"
+                style={{ backgroundColor: sns.bgColor }}
               >
                 <Image
-                  src={sns.icon}
+                  src={sns.iconUrl}
                   alt={sns.name}
                   width={25}
                   height={25}

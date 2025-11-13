@@ -1,17 +1,13 @@
 import React from 'react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 import Image from 'next/image'
-
-// icons
+import { Button } from '@/components/ui/button'
 import { LuMessageSquareMore } from 'react-icons/lu'
+import type { SocialLink } from '@/lib/sns-links'
 
-// libs
-import { snsLinks } from '@/lib/sns-links'
-
-export default function Footer() {
+export function Footer({ snsLinks }: { snsLinks: SocialLink[] }) {
   return (
-    <footer className="space-y-2 pb-6 px-5 flex flex-col items-center mt-16 px-4">
+    <footer className="space-y-2 pb-6 px-5 flex flex-col items-center mt-16">
       <LuMessageSquareMore className="text-7xl" />
       <h2 className="text-base font-semibold">お問い合わせ</h2>
       <p className="text-sm text-center">
@@ -24,7 +20,7 @@ export default function Footer() {
         variant="outline"
         className="border-ws-primary/30 text-ws-primary hover:bg-ws-primary/10 my-4"
       >
-        <Link href="/contact">お問い合わせ</Link>
+        <Link href="/ongoing">お問い合わせ</Link>
       </Button>
 
       <h2 className="text-base mt-10 font-semibold">柳大地 公式SNS</h2>
@@ -34,10 +30,15 @@ export default function Footer() {
             <a
               href={sns.url}
               target="_blank"
-              className={`w-10 h-10 rounded-full flex items-center justify-center border-2 border-${sns.color} ${sns.color} transition-transform hover:scale-110 hover:shadow-md`}
+              rel="noreferrer"
+              className="w-10 h-10 rounded-full flex items-center justify-center border transition-transform hover:scale-110 hover:shadow-md"
+              style={{
+                backgroundColor: sns.bgColor,
+                borderColor: sns.borderColor || sns.bgColor,
+              }}
             >
               <Image
-                src={sns.icon}
+                src={sns.iconUrl}
                 alt={sns.name}
                 width={25}
                 height={25}

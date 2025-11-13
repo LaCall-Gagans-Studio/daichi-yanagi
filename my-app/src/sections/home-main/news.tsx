@@ -1,3 +1,4 @@
+// components/News.tsx
 'use client'
 
 import React from 'react'
@@ -5,17 +6,19 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-
-// icons
 import { LuNewspaper, LuArrowRight, LuExternalLink } from 'react-icons/lu'
 
-// libs
-import { newsData } from '@/lib/news'
+import type { NewsItem } from '@/lib/news'
+import { formatNewsDate } from '@/lib/news'
 
-export default function News() {
-  const latestNews = [...newsData]
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 5)
+export default function News({ items }: { items: NewsItem[] }) {
+  const latestNews = React.useMemo(
+    () =>
+      [...items]
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .slice(0, 5),
+    [items],
+  )
 
   return (
     <div className="w-full relative my-6 px-5">
@@ -29,22 +32,26 @@ export default function News() {
         </div>
 
         <div className="space-y-3 mt-6">
-          {latestNews.map((n, idx) => (
+          {latestNews.map((n) => (
             <Card
-              key={idx}
+              key={n.id}
               className="p-0 border-ws-primary border shadow-none hover:bg-ws-primary group duration-300"
             >
               <CardContent className="p-0">
                 <Link href={n.url} className="flex gap-3 relative">
-                  <img
-                    src={n.img}
-                    alt="thumbnail"
-                    className="w-8 h-full object-cover object-center rounded-l-2xl opacity-80"
-                  />
+                  {n.img && (
+                    <Image
+                      src={n.img}
+                      alt="thumbnail"
+                      width={64}
+                      height={64}
+                      className="w-8 h-full object-cover object-center rounded-l-2xl"
+                    />
+                  )}
 
                   <div className="pb-2 space-y-0">
                     <span className="text-[11px] text-ws-primary group-hover:text-white font-semibold">
-                      {n.date}
+                      {formatNewsDate(n.date)}
                     </span>
                     <h3 className="text-sm font-medium line-clamp-1">{n.title}</h3>
                   </div>

@@ -1,3 +1,4 @@
+// src/components/policy.tsx
 'use client'
 
 import * as React from 'react'
@@ -9,7 +10,7 @@ import { Separator } from '@/components/ui/separator'
 import { LuBookOpen, LuBuilding2, LuGlobe, LuCrosshair } from 'react-icons/lu'
 
 // libs
-import { POLICY_THEMES } from '@/lib/policy'
+import type { PolicyTheme } from '@/lib/policy'
 
 const iconMap = {
   education: LuBookOpen,
@@ -17,9 +18,8 @@ const iconMap = {
   growth: LuGlobe,
 } as const
 
-export default function Policy() {
-  // 最初のテーマをデフォルト選択
-  const defaultValue = POLICY_THEMES[0]?.id ?? 'education'
+export function Policy({ themes }: { themes: PolicyTheme[] }) {
+  const defaultValue = themes[0]?.id ?? 'education'
 
   return (
     <section id="policy" className="w-full relative px-5 py-10 space-y-6 bg-ws-secondary/10">
@@ -30,11 +30,13 @@ export default function Policy() {
         </h2>
         <p className="text-sm font-bold text-center text-ws-primary">政策一覧</p>
       </div>
+
+      {/* 3本の柱サマリー */}
       <div>
         <h2 className="text-lg text-center font-semibold text-ws-primary">政策3本の柱</h2>
         <div className="grid grid-cols-1 gap-4 mt-3">
-          {POLICY_THEMES.map((theme) => {
-            const Icon = iconMap[theme.id as keyof typeof iconMap]
+          {themes.map((theme) => {
+            const Icon = iconMap[theme.id]
             return (
               <div
                 key={theme.id}
@@ -51,16 +53,16 @@ export default function Policy() {
         </div>
       </div>
 
+      {/* タブ本体 */}
       <Tabs defaultValue={defaultValue} className="w-full">
-        {/* タブボタン群 */}
         <TabsList
           className="
             grid grid-cols-3 w-full justify-start gap-2 rounded-xl
             bg-ws-primary/5 p-1 border border-ws-primary/10 h-auto
           "
         >
-          {POLICY_THEMES.map((theme) => {
-            const Icon = iconMap[theme.id as keyof typeof iconMap]
+          {themes.map((theme) => {
+            const Icon = iconMap[theme.id]
             return (
               <TabsTrigger
                 key={theme.id}
@@ -82,9 +84,8 @@ export default function Policy() {
           })}
         </TabsList>
 
-        {/* タブ内容 */}
-        {POLICY_THEMES.map((theme) => {
-          const Icon = iconMap[theme.id as keyof typeof iconMap]
+        {themes.map((theme) => {
+          const Icon = iconMap[theme.id]
           return (
             <TabsContent key={theme.id} value={theme.id} className="mt-4">
               <Card className="border-ws-primary/20 bg-ws-primary/5">

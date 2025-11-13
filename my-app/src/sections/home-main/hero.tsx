@@ -1,13 +1,11 @@
+// src/components/hero.tsx
 'use client'
 
-// components
 import React from 'react'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-
-// icons
 import {
   LuCalendarDays,
   LuHandHeart,
@@ -17,10 +15,7 @@ import {
   LuCalendarPlus,
   LuClock3,
 } from 'react-icons/lu'
-
-// libs
-import { CampaignEvent, getUpcomingEvents, formatJa, googleCalendarUrl } from '@/lib/schedule'
-import { CANDIDATE_THEMES } from '@/lib/candidate'
+import { type CampaignEvent, formatJa, googleCalendarUrl } from '@/lib/schedule'
 
 function useCountdown(target?: string) {
   const [txt, setTxt] = React.useState<string>('')
@@ -48,8 +43,8 @@ function useCountdown(target?: string) {
   return txt
 }
 
-export default function Hero() {
-  const allEvents = getUpcomingEvents().sort(
+export function Hero({ events, themes }: { events: CampaignEvent[]; themes: string[] }) {
+  const allEvents = [...events].sort(
     (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
   )
 
@@ -93,7 +88,7 @@ export default function Hero() {
             </div>
 
             <div className="flex flex-wrap px-4 mt-4 gap-2 gap-y-1 [&>*]:border-ws-primary [&>*]:text-ws-primary [&>*]:bg-white [&>*]:hover:bg-ws-primary [&>*]:hover:text-white cursor-pointer duration-300">
-              {CANDIDATE_THEMES.map((t) => (
+              {themes.map((t) => (
                 <Badge key={t}>{t}</Badge>
               ))}
             </div>
@@ -135,7 +130,7 @@ export default function Hero() {
         </div>
       </section>
 
-      {/* HERO SUB */}
+      {/* HERO SUB （イベント部分） */}
       <section aria-labelledby="nextmeet-heading" className="mt-12 px-4 space-y-3 relative">
         <div className="flex flex-col items-center justify-between">
           <h2 id="nextmeet-heading" className="text-xl text-center text-black">
@@ -193,7 +188,7 @@ export default function Hero() {
 
             {/* 次の3件 */}
             <div>
-              {list.map((e: CampaignEvent) => (
+              {list.map((e) => (
                 <div
                   key={e.id}
                   className="my-1 p-2 text-sm bg-ws-background border-ws-background/15 rounded-md border shadow-2xs flex items-center justify-between hover:bg-ws-primary group"
@@ -204,11 +199,11 @@ export default function Hero() {
                     </span>
                     <Badge
                       variant="outline"
-                      className="h-5 px-1 text-[8px] w-12 text-nowrap border-ws-primary/25 text-black/90"
+                      className="h-5 px-1 text-[8px] line-clamp-1 text-center py-1 w-12 text-nowrap border-ws-primary/25 text-black/90"
                     >
                       {e.type}
                     </Badge>
-                    <div className="mt-0.5 font-medium line-clamp-1 text-xs group-hover:text-ws-background">
+                    <div className="font-medium line-clamp-1 text-xs group-hover:text-ws-background">
                       {e.title}
                     </div>
                     <div className="text-[10px] text-black/80 line-clamp-1">in {e.placeName}</div>
@@ -227,7 +222,7 @@ export default function Hero() {
             </div>
           </>
         ) : (
-          /* イベントがないときの空状態 */
+          // 空状態はそのまま
           <Card className="border-dashed border-ws-primary/40 bg-ws-background/60 text-center py-6">
             <CardContent>
               <p className="text-sm text-black/80">直近のイベントは現在ありません。</p>

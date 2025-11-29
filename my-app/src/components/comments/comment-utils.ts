@@ -14,6 +14,7 @@ export type CommentDoc = {
   gender?: Gender
   occupation?: string | null
   district?: string | null
+  hearts?: number
 }
 
 /** グリッドのセル表現（CTAは各コンポーネント側で足す想定） */
@@ -24,11 +25,13 @@ export type GridCell =
       text: string
       source: CommentDoc
       meta: {
+        id: string
         accountId: string
         profileNumber?: number
         age?: number | null
         gender?: Gender
         district?: string | null
+        hearts?: number
       }
     }
   | { kind: 'reply'; key: string; text: string; source: CommentDoc }
@@ -72,11 +75,13 @@ export function toCommentCell(item: CommentDoc): GridCell {
     text: item.comment,
     source: item,
     meta: {
+      id: item.id,
       accountId: item.accountId,
       profileNumber: item.profileNumber,
       age: item.age ?? undefined,
       gender: item.gender ?? 'unspecified',
       district: item.district ?? undefined,
+      hearts: item.hearts ?? 0,
     },
   }
 }

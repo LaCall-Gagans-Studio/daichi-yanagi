@@ -93,5 +93,14 @@ export const Comments: CollectionConfig = {
       ],
       index: true,
     },
+    {
+      name: 'hearts',
+      type: 'number',
+      defaultValue: 0,
+      min: 0,
+      admin: {
+        description: 'ハート数',
+      },
+    },
   ],
 }

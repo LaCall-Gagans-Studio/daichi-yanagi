@@ -181,6 +181,10 @@ export interface Comment {
    */
   reply?: string | null;
   status?: ('draft' | 'published' | 'hidden') | null;
+  /**
+   * ハート数
+   */
+  hearts?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -453,6 +457,7 @@ export interface CommentsSelect<T extends boolean = true> {
   comment?: T;
   reply?: T;
   status?: T;
+  hearts?: T;
   updatedAt?: T;
   createdAt?: T;
 }

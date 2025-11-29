@@ -3,7 +3,7 @@
 
 import * as React from 'react'
 import Image from 'next/image'
-import { LuChevronLeft } from 'react-icons/lu'
+import { LuChevronLeft, LuHeart } from 'react-icons/lu'
 import { ageLabel, districtLabel, genderLabel } from './comment-utils'
 
 type CommentMeta = {
@@ -33,7 +33,7 @@ export function CommentTile({
       type="button"
       onClick={onClick}
       className={[
-        'aspect-square text-left hover:border-black hover:border-2 hover:border-double focus:outline-none focus:ring-2 focus:ring-ws-primary/40',
+        'aspect-square text-left relative hover:border-black hover:border-2 hover:border-double focus:outline-none focus:ring-2 focus:ring-ws-primary/40',
         className,
       ].join(' ')}
     >
@@ -56,8 +56,22 @@ export function CommentTile({
           </div>
         </div>
         <div className="mt-1 flex-1">
-          <p className="text-[11px] md:text-xs text-black leading-snug line-clamp-3">{text}</p>
+          <p className={`text-[11px] md:text-xs text-black leading-snug line-clamp-3 `}>{text}</p>
         </div>
+
+        {/* Heart Display (Read-only) */}
+        {meta.hearts !== undefined && (
+          <div className="absolute bottom-1 lg:bottom-0 right-1 flex items-center gap-0.5 text-gray-400 z-10">
+            <LuHeart
+              className={`w-2 h-2 md:w-3 md:h-3 ${meta.hearts !== undefined && meta.hearts > 0 ? 'fill-red-500 text-red-500' : ''} `}
+            />
+            <span
+              className={`text-[8px] font-medium tabular-nums ${meta.hearts !== undefined && meta.hearts > 0 ? 'text-red-500' : 'text-gray-400'} `}
+            >
+              {meta.hearts}
+            </span>
+          </div>
+        )}
       </div>
     </button>
   )

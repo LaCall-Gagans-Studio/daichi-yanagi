@@ -56,9 +56,7 @@ export function CommentTile({
           </div>
         </div>
         <div className="mt-1 flex-1">
-          <p className="text-[11px] md:text-xs text-black leading-snug line-clamp-2 lg:line-clamp-3">
-            {text}
-          </p>
+          <p className="text-[11px] md:text-xs text-black leading-snug line-clamp-3">{text}</p>
         </div>
       </div>
     </button>

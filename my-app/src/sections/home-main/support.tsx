@@ -55,7 +55,7 @@ export default function Support() {
                 shadow-md rounded-full px-6 py-2 text-sm
               "
             >
-              <Link href="/ongoing">ボランティア登録へ</Link>
+              <Link href="https://forms.gle/GmvVToNFBngsUuyJ9">ボランティア登録へ</Link>
             </Button>
           </div>
         </div>

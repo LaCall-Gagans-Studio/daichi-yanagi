@@ -200,13 +200,16 @@ function CtaTile({
     <div className={`aspect-square ${baseBg}`}>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="bg-ws-primary rounded-none text-wrap flex flex-col text-sm w-full h-full text-black hover:bg-white">
-            あなたの声が、
-            <br />
-            まちをつくる。
-            <br />
-            <span className="p-1 border-black border-2 text-xs inline-flex items-center">
-              <LuChevronLeft />
+          <Button className="bg-ws-primary  rounded-none text-wrap flex flex-col text-sm lg:text-xs w-full h-full text-black hover:bg-white">
+            <p className="text-[12px] lg:text-[11px] text-center">
+              あなたの声が、
+              <br />
+              まちをつくる。
+              <br />
+            </p>
+
+            <span className="p-1 lg:p-0 border-black border-2 text-xs inline-flex items-center">
+              <LuChevronLeft className="lg:hidden" />
               コメントする
             </span>
           </Button>

@@ -37,14 +37,14 @@ export function CommentTile({
         className,
       ].join(' ')}
     >
-      <div className="w-full h-full p-3">
+      <div className="w-full h-full p-3 lg:px-2 lg:py-2">
         <div className="flex items-center">
           <Image
             src={`/avatars/${avatarNum}.png`}
             alt="avatar"
-            width={24}
-            height={24}
-            className="lg:w-6 lg:h-6 w-4 h-4 object-contain"
+            width={16}
+            height={16}
+            className="w-4 h-4 object-contain"
           />
           <div className="gap-0 space-y-0 ml-2 leading-tight">
             <p className="text-[9px] md:text-[11px] font-semibold text-black leading-none line-clamp-1">
@@ -55,8 +55,12 @@ export function CommentTile({
             </p>
           </div>
         </div>
-        <div className="mt-1 flex-1">
-          <p className={`text-[11px] md:text-xs text-black leading-snug line-clamp-3 `}>{text}</p>
+        <div className="mt-1 lg:mt-0.5 flex-1">
+          <p
+            className={`text-[11px] md:text-xs text-black leading-snug line-clamp-3 lg:line-clamp-2 2xl:line-clamp-3`}
+          >
+            {text}
+          </p>
         </div>
 
         {/* Heart Display (Read-only) */}

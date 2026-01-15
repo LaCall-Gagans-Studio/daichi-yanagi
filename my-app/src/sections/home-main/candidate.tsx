@@ -98,7 +98,7 @@ export function Candidate({ candidate }: { candidate: CandidateData }) {
                 return (
                   <li key={i} className="text-sm text-ws-primary/90 flex items-start gap-2">
                     <Icon className="mt-[2px] shrink-0" />
-                    <span className="text-gray-900 font-semibold">{text}</span>
+                    <span className="text-gray-900 font-normal">{text}</span>
                   </li>
                 )
               })}

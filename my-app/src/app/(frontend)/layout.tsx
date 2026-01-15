@@ -3,6 +3,7 @@ import React from 'react'
 import type { Metadata } from 'next'
 import Script from 'next/script'
 import './styles.css'
+import { Analytics } from '@vercel/analytics/next'
 
 import HomeGrids from '@/sections/home-grids'
 import HomeLinks from '@/sections/home-links'
@@ -123,17 +124,42 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="ja">
+      <head>
+        {/* Google tag (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-XWVKPY4M85"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-XWVKPY4M85');
+          `}
+        </Script>
+      </head>
       <body>
         {/* JSON-LD（SEO強化）。<main>の構造は変更しません */}
-        <Script id="ld-org" type="application/ld+json" strategy="afterInteractive">
-          {JSON.stringify(orgJsonLd)}
-        </Script>
-        <Script id="ld-person" type="application/ld+json" strategy="afterInteractive">
-          {JSON.stringify(personJsonLd)}
-        </Script>
-        <Script id="ld-website" type="application/ld+json" strategy="afterInteractive">
-          {JSON.stringify(webSiteJsonLd)}
-        </Script>
+        <Script
+          id="ld-org"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+        />
+        <Script
+          id="ld-person"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <Script
+          id="ld-website"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
+        />
 
         <main className="w-screen h-screen font-kosugi">
           <div className="text-black flex w-full h-full">

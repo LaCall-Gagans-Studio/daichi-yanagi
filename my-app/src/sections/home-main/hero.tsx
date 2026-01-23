@@ -49,10 +49,10 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
           <div className="bg-ws-background rounded-2xl col-span-2 p-4 py-6 pt-7 border-2 border-ws-primary">
             <div className="flex items-center justify-center gap-3">
               <div className="flex flex-col gap-1 justify-end grow-3 text-right">
-                <p className="leading-tight font-medium saturate-150">無所属</p>
+                <p className="leading-tight font-medium">無所属</p>
               </div>
 
-              <h1 className="text-ws-primary saturate-150 font-bold grow-6 flex items-end gap-2">
+              <h1 className="text-ws-primary font-bold grow-6 flex items-end gap-2">
                 <ruby className="text-6xl leading-none">
                   柳<rt className="text-[0.6rem] tracking-wider text-ws-primary/90">やなぎ</rt>
                 </ruby>
@@ -62,7 +62,7 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
               </h1>
             </div>
 
-            <div className="flex flex-wrap px-4 mt-4 gap-2 gap-y-1 [&>*]:border-ws-primary [&>*]:text-ws-primary [&>*]:bg-white [&>*]:hover:bg-ws-primary [&>*]:hover:text-white cursor-pointer duration-300">
+            <div className="flex flex-wrap px-4 mt-2 gap-2 gap-y-1 [&>*]:border-ws-primary [&>*]:text-ws-primary [&>*]:bg-white [&>*]:hover:bg-ws-primary [&>*]:hover:text-white cursor-pointer duration-300">
               {candidate.themes.map((t) => (
                 <Badge key={t}>{t}</Badge>
               ))}
@@ -71,7 +71,7 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
 
           <Button
             asChild
-            className="bg-ws-primary saturate-150 text-ws-background hover:bg-ws-background text-lg"
+            className="bg-ws-primary  text-ws-background hover:bg-ws-background text-lg"
           >
             <Link
               href="#policy"
@@ -88,7 +88,7 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
 
           <Button
             asChild
-            className="bg-ws-background saturate-150 text-ws-background hover:bg-ws-ws-primary text-lg"
+            className="bg-ws-background text-ws-background hover:bg-ws-ws-primary text-lg"
           >
             <Link
               href="#support"

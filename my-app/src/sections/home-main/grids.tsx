@@ -110,7 +110,7 @@ export default function Grids() {
 
   return (
     // スマホ優先表示（必要なら lg:hidden などでPC側を隠す）
-    <div className="block lg:hidden w-full bg-ws-secondary relative font-zen my-12 py-6">
+    <div className="block lg:hidden w-full bg-ws-primary relative font-zen my-12 py-6">
       <div className="flex flex-col items-center justify-between my-6">
         <h2 className="text-2xl text-center text-black flex items-center gap-2">
           <LuNewspaper />
@@ -152,7 +152,7 @@ export default function Grids() {
                   const col = globalIndex % PAGE_COLS
                   const isPrimary =
                     (row % 2 === 0 && col % 2 === 0) || (row % 2 === 1 && col % 2 === 1)
-                  const baseBg = isPrimary ? 'bg-white' : 'bg-ws-secondary'
+                  const baseBg = isPrimary ? 'bg-white' : 'bg-ws-primary'
 
                   // 空マス（spacer代わりのプレーンセル）
                   if (!cell) {
@@ -197,7 +197,7 @@ export default function Grids() {
               aria-current={i === page ? 'page' : undefined}
               className={[
                 'h-2.5 w-2.5 rounded-full transition-colors',
-                i === page ? 'bg-ws-primary' : 'bg-white/40',
+                i === page ? 'bg-white' : 'bg-white/40',
               ].join(' ')}
             />
           ))}

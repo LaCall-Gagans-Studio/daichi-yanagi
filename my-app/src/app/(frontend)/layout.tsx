@@ -170,7 +170,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             <div id="home-main" className="bg-white overflow-y-scroll w-full lg:w-sm">
               {children}
             </div>
-            <div id="home-links" className="bg-ws-secondary grow hidden lg:block">
+            <div id="home-links" className="bg-ws-primary grow hidden lg:block">
               <HomeLinks />
             </div>
           </div>

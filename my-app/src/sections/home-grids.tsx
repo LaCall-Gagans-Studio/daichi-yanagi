@@ -93,7 +93,7 @@ export default function HomeGrids() {
   }, [commentCells])
 
   return (
-    <div className="w-full h-full bg-ws-secondary relative font-zen overflow-y-auto border-ws-background border-r">
+    <div className="w-full h-full bg-ws-primary relative font-zen overflow-y-auto border-ws-background border-r">
       {error && (
         <div className="p-2 text-xs text-red-600">読み込み中にエラーが発生しました：{error}</div>
       )}
@@ -104,7 +104,7 @@ export default function HomeGrids() {
           const row = Math.floor(i / cols)
           const col = i % cols
           const isPrimary = (row % 2 === 0 && col % 2 === 0) || (row % 2 === 1 && col % 2 === 1)
-          const baseBg = isPrimary ? 'bg-white' : 'bg-ws-secondary'
+          const baseBg = isPrimary ? 'bg-white' : 'bg-ws-primary'
 
           // CTA
           if ('kind' in cell && cell.kind === 'cta') {

@@ -64,18 +64,20 @@ export function CommentTile({
         </div>
 
         {/* Heart Display (Read-only) */}
-        {meta.hearts !== undefined && (
-          <div className="absolute bottom-1 lg:bottom-0 right-1 flex items-center gap-0.5 text-gray-400 z-10">
-            <LuHeart
-              className={`w-2 h-2 md:w-3 md:h-3 ${meta.hearts !== undefined && meta.hearts > 0 ? 'fill-red-500 text-red-500' : ''} `}
-            />
-            <span
-              className={`text-[8px] font-medium tabular-nums ${meta.hearts !== undefined && meta.hearts > 0 ? 'text-red-500' : 'text-gray-400'} `}
+        {
+          /* Heart Display (Read-only) */
+          /* いいねが1以上の場合のみ表示 & 背景色に応じて色変更 */
+          meta.hearts !== undefined && meta.hearts > 0 && (
+            <div
+              className={`absolute bottom-1 lg:bottom-0 right-1 flex items-center gap-0.5 z-10 ${
+                className.includes('bg-ws-primary') ? 'text-white' : 'text-ws-primary'
+              }`}
             >
-              {meta.hearts}
-            </span>
-          </div>
-        )}
+              <LuHeart className={`w-2 h-2 md:w-3 md:h-3 fill-current`} />
+              <span className="text-[8px] font-medium tabular-nums">{meta.hearts}</span>
+            </div>
+          )
+        }
       </div>
     </button>
   )

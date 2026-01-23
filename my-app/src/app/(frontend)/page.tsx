@@ -4,6 +4,7 @@ import React from 'react'
 // sections
 import { Hero } from '@/sections/home-main/hero'
 import News from '@/sections/home-main/news'
+import { HeroNotice } from '@/sections/home-main/hero-notice'
 import Grids from '@/sections/home-main/grids'
 import { Candidate } from '@/sections/home-main/candidate'
 import { Vision } from '@/sections/home-main/vision'
@@ -29,6 +30,7 @@ export default async function HomePage() {
       <main className="">
         {/* --- HERO --- */}
         <Hero events={events} candidate={candidate} />
+        <HeroNotice />
 
         {/* --- Grids --- */}
         <Grids />

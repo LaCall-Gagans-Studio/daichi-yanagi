@@ -200,7 +200,7 @@ function CtaTile({
     <div className={`aspect-square ${baseBg}`}>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="bg-ws-primary  rounded-none text-wrap flex flex-col text-sm lg:text-xs w-full h-full text-black hover:bg-white">
+          <Button className="bg-ws-primary rounded-none text-wrap flex flex-col text-sm lg:text-xs w-full h-full text-black hover:bg-white">
             <p className="text-[12px] lg:text-[11px] text-center">
               あなたの声が、
               <br />

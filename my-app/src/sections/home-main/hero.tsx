@@ -79,7 +79,7 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
                 e.preventDefault()
                 document.querySelector('#policy')?.scrollIntoView({ behavior: 'smooth' })
               }}
-              className="hover:text-ws-primary py-5 border-2 border-ws-primary"
+              className="hover:text-ws-primary  text-white py-5 border-2 border-ws-primary"
             >
               <LuBookOpen className="mr-2" />
               政策を見る

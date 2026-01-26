@@ -125,6 +125,19 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="ja">
       <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17892076374"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'AW-17892076374');
+          `}
+        </Script>
         {/* Google tag (gtag.js) */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-XWVKPY4M85"

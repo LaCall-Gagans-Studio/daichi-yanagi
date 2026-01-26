@@ -43,7 +43,7 @@ export default async function HomePage() {
         <Hero events={events} candidate={candidate} />
         <HeroNotice />
 
-        <div className="px-4 mb-8 lg:hidden">
+        <div className="px-4 mb-8">
           <YouTubePlaylist />
         </div>
 

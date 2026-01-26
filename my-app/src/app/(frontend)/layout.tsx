@@ -186,9 +186,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             </div>
             <div
               id="home-links"
-              className="bg-ws-primary grow hidden lg:flex flex-col justify-end relative"
+              className="bg-ws-primary hidden lg:flex flex-col justify-end relative"
             >
-              <div className="p-4 mb-20">
+              <div className="py-4 px-1 mb-20">
                 <YouTubePlaylist className="" />
               </div>
               <HomeLinks />

@@ -25,6 +25,7 @@ Modified `src/app/(frontend)/layout.tsx`.
 - Inserted `<YouTubePlaylist />` content inside the `#home-links` container.
 - Changed `#home-links` display to `hidden lg:flex` (from `lg:block`) to stack the playlist above the sns links.
 - Styled the desktop version to use white text for the header to match the blue background.
+- **Refinement**: Added `w-full` to the "event" image and its container to ensure it stays within the sidebar width.
 
 ## Verification Results
 

@@ -35,13 +35,11 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
         <div className="absolute">
           <div className="bg-ws-background/30 border-black p-3 py-4 border-3 text-black">
             <h1 className="text-4xl mb-1 font-bold leading-tight tracking-tight">
-              未来を、
+              みんなで動かす、
               <br />
-              鳥取から、
-              <br />
-              つくろう。
+              鳥取市。
             </h1>
-            <p className="text-xs text-nowrap font-bold">この町は、もっと面白くなる！</p>
+            <p className="text-xs text-nowrap font-bold">〜このまちの主人公は、あなただ〜</p>
           </div>
         </div>
 
@@ -110,7 +108,7 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
         aria-labelledby="nextmeet-heading"
         className="mt-40 md:mt-32 px-4 space-y-3 relative"
       >
-        <div className="flex flex-col items-center justify-between">
+        {/* <div className="flex flex-col items-center justify-between">
           <h2 id="nextmeet-heading" className="text-xl text-center text-black">
             NEXT MEET UP!
           </h2>
@@ -119,7 +117,6 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
 
         {hasEvents ? (
           <>
-            {/* 今度の1件 */}
             <Card className="border-ws-primary/15 bg-ws-background py-2">
               <CardContent className="p-3">
                 <div className="flex items-center gap-2">
@@ -164,7 +161,6 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
               </CardContent>
             </Card>
 
-            {/* 次の3件 */}
             <div>
               {list.map((e) => (
                 <div
@@ -200,7 +196,6 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
             </div>
           </>
         ) : (
-          // 空状態はそのまま
           <Card className="border-dashed border-ws-primary/40 bg-ws-background/60 text-center py-6">
             <CardContent>
               <p className="text-sm text-black/80">直近のイベントは現在ありません。</p>
@@ -215,7 +210,7 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
               </div>
             </CardContent>
           </Card>
-        )}
+        )} */}
       </section>
     </div>
   )

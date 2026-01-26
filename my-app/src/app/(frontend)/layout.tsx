@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 import './styles.css'
 import { Analytics } from '@vercel/analytics/next'
+import { YouTubePlaylist } from '@/components/youtube-playlist'
 
 import HomeGrids from '@/sections/home-grids'
 import HomeLinks from '@/sections/home-links'
@@ -183,7 +184,13 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             <div id="home-main" className="bg-white overflow-y-scroll w-full lg:w-sm">
               {children}
             </div>
-            <div id="home-links" className="bg-ws-primary grow hidden lg:block">
+            <div
+              id="home-links"
+              className="bg-ws-primary grow hidden lg:flex flex-col justify-end relative"
+            >
+              <div className="p-4 mb-20">
+                <YouTubePlaylist className="" />
+              </div>
               <HomeLinks />
             </div>
           </div>

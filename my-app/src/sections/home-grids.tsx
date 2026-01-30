@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { LuChevronLeft, LuSquarePen } from 'react-icons/lu'
+import { useMediaQuery } from '@/hooks/use-media-query'
 
 // ▼ 共通レイヤ
 import {
@@ -44,13 +45,19 @@ export default function HomeGrids() {
   // CTA 用モーダル
   const [openForm, setOpenForm] = useState(false)
 
+  // 1024px (lg) 以上でのみ表示・動作させる
+  const isDesktop = useMediaQuery('(min-width: 1024px)')
+
   useEffect(() => {
+    // モバイル(非表示)ならフェッチしない
+    if (!isDesktop) return
+
     let alive = true
     ;(async () => {
       try {
-        const docs = await fetchComments(60)
+        const res = await fetchComments(60)
         if (!alive) return
-        setItems(docs)
+        setItems(res.docs)
       } catch (e: any) {
         if (alive) setError(e?.message ?? 'Error')
       } finally {
@@ -60,7 +67,7 @@ export default function HomeGrids() {
     return () => {
       alive = false
     }
-  }, [])
+  }, [isDesktop]) // isDesktop が true になった瞬間にロード開始
 
   const cols = 6
 
@@ -92,6 +99,8 @@ export default function HomeGrids() {
     return out
   }, [commentCells])
 
+  if (!isDesktop) return null
+
   return (
     <div className="w-full h-full bg-ws-primary relative font-zen overflow-y-auto border-ws-background border-r">
       {error && (
@@ -117,8 +126,8 @@ export default function HomeGrids() {
                 setOpen={setOpenForm}
                 afterSubmit={async () => {
                   try {
-                    const docs = await fetchComments(60)
-                    setItems(docs)
+                    const res = await fetchComments(60)
+                    setItems(res.docs)
                   } catch {
                     // 失敗してもグリッドはそのまま
                   }

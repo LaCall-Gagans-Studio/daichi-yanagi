@@ -1,7 +1,8 @@
 'use client'
 
 import * as React from 'react'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import throttle from 'lodash.throttle'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -31,8 +32,15 @@ import { LuNewspaper } from 'react-icons/lu'
 type CommentCell = Extract<GridCell, { kind: 'comment' }>
 
 // スマホ専用横スライド・グリッド（2列×3行を1ページとして横にスナップ）
+// スマホ専用横スライド・グリッド（2列×3行を1ページとして横にスナップ）
 export default function Grids() {
   const [items, setItems] = useState<CommentDoc[]>([])
+  const [hasMore, setHasMore] = useState(true)
+  const isFetching = useRef(false)
+  const [apiPage, setApiPage] = useState(1) // Payload APIのページ番号 (1-based)
+  const [totalDocs, setTotalDocs] = useState(0) // 追加: 総アイテム数
+
+  // 初回ロード用
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -40,26 +48,77 @@ export default function Grids() {
   const [openForm, setOpenForm] = useState(false)
 
   const scrollerRef = useRef<HTMLDivElement | null>(null)
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(0) // 現在の表示上のページインデックス (0-based)
+
+  const PAGE_COLS = 2
+  const PAGE_ROWS = 3
+  const PAGE_SIZE = PAGE_COLS * PAGE_ROWS
+  const FETCH_LIMIT = 24 // 4ページ分ずつ取得
+
+  // データ取得関数
+  const loadComments = useCallback(async (pageToLoad: number) => {
+    if (isFetching.current) return
+    isFetching.current = true
+    setError(null)
+
+    try {
+      const res = await fetchComments(FETCH_LIMIT, pageToLoad)
+
+      setItems((prev) => {
+        if (pageToLoad === 1) return res.docs
+        // 重複排除（念のため）
+        const existing = new Set(prev.map((i) => i.id))
+        const incoming = res.docs.filter((d) => !existing.has(d.id))
+        return [...prev, ...incoming]
+      })
+
+      if (pageToLoad === 1) {
+        setTotalDocs(res.totalDocs)
+      }
+
+      setHasMore(res.hasNextPage)
+      if (res.nextPage) {
+        setApiPage(res.nextPage)
+      }
+    } catch (e: any) {
+      setError(e?.message ?? 'Error loading comments')
+    } finally {
+      isFetching.current = false
+      setLoading(false)
+    }
+  }, [])
+
+  // ... (useEffect effects unchanged)
+
+  // ... (cells and pages memos unchanged)
+
+  // 総ページ数（クライアント表示上の6件/ページ換算）
+  const totalPages = Math.ceil(totalDocs / PAGE_SIZE) || 1
+
+  // 水平スクロール → ページインデックス算出 (unchanged)
+
+  // ... (render)
 
   // 初回取得
   useEffect(() => {
-    let alive = true
-    ;(async () => {
-      try {
-        const docs = await fetchComments(120)
-        if (!alive) return
-        setItems(docs)
-      } catch (e: any) {
-        if (alive) setError(e?.message ?? 'Error')
-      } finally {
-        if (alive) setLoading(false)
-      }
-    })()
-    return () => {
-      alive = false
+    loadComments(1)
+  }, [loadComments])
+
+  // 無限スクロール監視
+  useEffect(() => {
+    if (!hasMore || isFetching.current || loading) return
+
+    // 現在読み込まれているデータで表示できるページ数
+    const loadedVisualPages = Math.ceil(items.length / PAGE_SIZE)
+
+    // 現在のページが、読み込み済み末尾から2ページ以内に近づいたら次を取得
+    // pageは0-basedなので、比較調整
+    const threshold = loadedVisualPages - 2
+
+    if (page >= threshold) {
+      loadComments(apiPage)
     }
-  }, [])
+  }, [page, items.length, hasMore, apiPage, loading, PAGE_SIZE, loadComments])
 
   // コメントのみをセルへ（reply / spacer は除外）
   const cells = useMemo<CommentCell[]>(() => {
@@ -69,11 +128,6 @@ export default function Grids() {
     // kind === 'comment' だけ残す
     return base.filter((cell): cell is CommentCell => !!cell && cell.kind === 'comment')
   }, [items])
-
-  // 2列×3行 = 1ページ6セルに分割 （※元コードのまま 4x6 グリッド設定）
-  const PAGE_COLS = 4
-  const PAGE_ROWS = 6
-  const PAGE_SIZE = PAGE_COLS * PAGE_ROWS
 
   const pages = useMemo(() => {
     const out: Array<CommentCell | null>[] = []
@@ -90,16 +144,22 @@ export default function Grids() {
       }
       return filled
     })
-  }, [cells])
+  }, [cells, PAGE_SIZE])
 
   // 水平スクロール → ページインデックス算出
-  const onScroll = () => {
-    const el = scrollerRef.current
-    if (!el) return
-    const w = el.clientWidth
-    const idx = Math.round(el.scrollLeft / (w || 1))
-    setPage(idx)
-  }
+  const onScroll = useMemo(
+    () =>
+      throttle(() => {
+        const el = scrollerRef.current
+        if (!el) return
+        const w = el.clientWidth
+        const idx = Math.round(el.scrollLeft / (w || 1))
+        if (idx !== page) {
+          setPage(idx)
+        }
+      }, 200),
+    [],
+  )
 
   const goTo = (idx: number) => {
     const el = scrollerRef.current
@@ -109,7 +169,7 @@ export default function Grids() {
   }
 
   return (
-    // スマホ優先表示（必要なら lg:hidden などでPC側を隠す）
+    // スマホ優先表示
     <div className="block lg:hidden w-full bg-ws-primary relative font-zen my-12 py-6">
       <div className="flex flex-col items-center justify-between my-6">
         <h2 className="text-2xl text-center text-black flex items-center gap-2">
@@ -144,7 +204,7 @@ export default function Grids() {
               "
             >
               {/* 各ページは grid */}
-              <div className="grid grid-cols-4">
+              <div className="grid grid-cols-2">
                 {cellsInPage.map((cell, i) => {
                   // 市松模様（ページ単位でもズレないように全体インデックスを計算）
                   const globalIndex = pageIndex * PAGE_SIZE + i
@@ -153,6 +213,12 @@ export default function Grids() {
                   const isPrimary =
                     (row % 2 === 0 && col % 2 === 0) || (row % 2 === 1 && col % 2 === 1)
                   const baseBg = isPrimary ? 'bg-white' : 'bg-ws-primary'
+
+                  // 現在のページとその前後以外は中身を描画しない (DOM削減)
+                  const isVisible = Math.abs(pageIndex - page) <= 1
+                  if (!isVisible) {
+                    return <div key={`ph-${globalIndex}`} className={`aspect-square ${baseBg}`} />
+                  }
 
                   // 空マス（spacer代わりのプレーンセル）
                   if (!cell) {
@@ -190,17 +256,10 @@ export default function Grids() {
           前へ
         </Button>
         <div className="flex items-center gap-1">
-          {pages.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => goTo(i)}
-              aria-current={i === page ? 'page' : undefined}
-              className={[
-                'h-2.5 w-2.5 rounded-full transition-colors',
-                i === page ? 'bg-white' : 'bg-white/40',
-              ].join(' ')}
-            />
-          ))}
+          {page > 0 && <span className="text-xs text-white/50">...</span>}
+          <span className="text-sm font-bold text-white tabular-nums">{page + 1}</span>
+          <span className="text-xs text-white/50">/ {totalPages}</span>
+          {page < totalPages - 1 && <span className="text-xs text-white/50">...</span>}
         </div>
         <Button
           variant="outline"
@@ -237,14 +296,8 @@ export default function Grids() {
             <CommentForm
               onSubmitted={() => {
                 setOpenForm(false)
-                ;(async () => {
-                  try {
-                    const docs = await fetchComments(120)
-                    setItems(docs)
-                  } catch {
-                    // 失敗しても現状維持
-                  }
-                })()
+                // 投稿後は先頭リセット
+                loadComments(1)
               }}
             />
           </DialogContent>

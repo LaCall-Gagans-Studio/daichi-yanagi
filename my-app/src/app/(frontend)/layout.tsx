@@ -177,7 +177,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
         <main className="w-screen h-screen font-kosugi">
           <div className="text-black flex w-full h-full">
-            <div id="home-grids" className="bg-ws-secondary grow w-1/4 hidden lg:block">
+            <div id="home-grids" className="bg-ws-primary grow w-1/4 hidden lg:block">
               {/* LCP向上: 非同期でもOKな軽量グリッドはそのまま */}
               <HomeGrids />
             </div>

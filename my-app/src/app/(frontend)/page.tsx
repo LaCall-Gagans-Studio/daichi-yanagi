@@ -3,6 +3,8 @@ import React from 'react'
 import { YouTubePlaylist } from '@/components/youtube-playlist'
 
 // sections
+import Link from 'next/link'
+import Image from 'next/image'
 import { Hero } from '@/sections/home-main/hero'
 import News from '@/sections/home-main/news'
 import { HeroNotice } from '@/sections/home-main/hero-notice'
@@ -31,7 +33,14 @@ export default async function HomePage() {
       <main className="">
         <div className="relative">
           <a href="https://docs.google.com/forms/d/e/1FAIpQLScHvpcM9Q62k7KJhRAeNfLCW-hfDuHqTt6MtO2QZj1jk2vB6A/viewform?usp=header">
-            <img src="/hero_link.png" alt="hero" />
+            <Image
+              src="/hero_link.png"
+              alt="hero"
+              width={1000}
+              height={300}
+              style={{ width: '100%', height: 'auto' }}
+              priority
+            />
           </a>
 
           <p className=" text-ws-primary text-center bg-white text-xs font-bold">

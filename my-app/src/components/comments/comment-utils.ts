@@ -37,12 +37,30 @@ export type GridCell =
   | { kind: 'reply'; key: string; text: string; source: CommentDoc }
   | { kind: 'spacer'; key: string }
 
+export interface PaginatedResult<T> {
+  docs: T[]
+  hasNextPage: boolean
+  nextPage?: number | null
+  totalDocs: number
+}
+
 /** ===== Fetch ===== */
-export async function fetchComments(limit = 60): Promise<CommentDoc[]> {
-  const res = await fetch(`/api/comments?limit=${limit}`, { cache: 'no-store' })
+export async function fetchComments(limit = 60, page = 1): Promise<PaginatedResult<CommentDoc>> {
+  const res = await fetch(`/api/comments?limit=${limit}&page=${page}`, { cache: 'no-store' })
   if (!res.ok) throw new Error('Failed to fetch comments')
   const data = await res.json()
-  return Array.isArray(data) ? data : (data?.docs ?? [])
+
+  // Payload REST API returns object with docs for paginated responses
+  if (Array.isArray(data)) {
+    return { docs: data, hasNextPage: false, nextPage: null, totalDocs: data.length }
+  }
+
+  return {
+    docs: data?.docs ?? [],
+    hasNextPage: !!data?.hasNextPage,
+    nextPage: data?.nextPage ?? null,
+    totalDocs: data?.totalDocs ?? 0,
+  }
 }
 
 /** ===== Display labels ===== */

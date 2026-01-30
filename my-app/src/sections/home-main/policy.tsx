@@ -19,7 +19,7 @@ const iconMap = {
 } as const
 
 export function Policy({ themes }: { themes: PolicyTheme[] }) {
-  const defaultValue = themes[0]?.id ?? 'education'
+  const [activeTab, setActiveTab] = React.useState(themes[0]?.id ?? 'education')
 
   return (
     <section id="policy" className="w-full relative px-5 py-10 space-y-6 bg-ws-secondary/10">
@@ -54,7 +54,7 @@ export function Policy({ themes }: { themes: PolicyTheme[] }) {
       </div>
 
       {/* タブ本体 */}
-      <Tabs defaultValue={defaultValue} className="w-full">
+      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="w-full">
         <TabsList
           className="
             grid grid-cols-3 w-full justify-start gap-2 rounded-xl
@@ -85,9 +85,12 @@ export function Policy({ themes }: { themes: PolicyTheme[] }) {
         </TabsList>
 
         {themes.map((theme) => {
+          // 非アクティブなタブの中身はレンダリングしない (DOM削減)
+          if (theme.id !== activeTab) return null
+
           const Icon = iconMap[theme.id]
           return (
-            <TabsContent key={theme.id} value={theme.id} className="mt-4">
+            <TabsContent key={theme.id} value={theme.id} className="mt-4" forceMount>
               <Card className="border-ws-primary/20 bg-ws-primary/5">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-ws-primary text-lg">

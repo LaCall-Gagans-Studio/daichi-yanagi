@@ -11,8 +11,7 @@
   --font-zen: 'Zen Kaku Gothic New', sans-serif;
 
   /* colors */
-  --color-ws-primary: hsl(40, 90%, 55%);
-  /* #ffc34e */
+  --color-ws-primary: #ffb300;
   --color-ws-secondary: #f7c67c;
   --color-ws-background: #ffffff;
 }

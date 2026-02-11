@@ -74,7 +74,7 @@ export default function Support() {
       </div>
 
       {/* 見出し */}
-      <div className="flex flex-col items-center justify-between mt-20">
+      <div id="charts" className="flex flex-col items-center justify-between mt-20">
         <h2 className="text-xl text-center text-black flex items-center gap-2">
           <LuSend />
           寄付・献金
@@ -83,7 +83,7 @@ export default function Support() {
       </div>
 
       {/* 寄付・献金チャート */}
-      <div className="w-full mt-4">
+      <div className="w-full mt-12">
         <DonationChart />
       </div>
     </section>

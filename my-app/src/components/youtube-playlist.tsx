@@ -10,11 +10,11 @@ interface YouTubePlaylistProps {
 export function YouTubePlaylist({ className = '' }: YouTubePlaylistProps) {
   return (
     <div className={`w-full ${className}`}>
-      <h3 className="text-center font-bold text-lg mb-2 bg-ws-primary text-white py-1 rounded-lg flex items-center justify-center gap-2">
+      <h3 className="text-center font-bold text-base py-1 bg-ws-primary text-white pt-1 rounded-t-lg flex items-center justify-center gap-2">
         <LuYoutube />
         SNSで情報発信中！
       </h3>
-      <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-md bg-gray-100">
+      <div className="relative w-full aspect-video rounded-b-lg overflow-hidden shadow-md bg-gray-100">
         <iframe
           className="absolute top-0 left-0 w-full h-full"
           src="https://www.youtube.com/embed/videoseries?si=T5j_dpWLsWZkReTh&list=PLrqNIJBpFYrG1FHKO3x3-cyQqzdlwtIrj"

@@ -50,7 +50,10 @@ export default function DonationChart() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [grandTotal, setGrandTotal] = useState<number>(0)
+  const [grandTotalCount, setGrandTotalCount] = useState<number>(0)
   const [containerWidth, setContainerWidth] = useState<number>(0)
+  const [mode, setMode] = useState<'amount' | 'count'>('count') // 'amount' or 'count'
+  const [rawData, setRawData] = useState<DonationRow[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,7 +65,10 @@ export default function DonationChart() {
         Papa.parse<DonationRow>(csvText, {
           header: true,
           skipEmptyLines: true,
-          complete: (results) => processData(results.data),
+          complete: (results) => {
+            setRawData(results.data)
+            processData(results.data, 'amount')
+          },
           error: (err: Error) => {
             setError(err.message)
             setLoading(false)
@@ -77,10 +83,18 @@ export default function DonationChart() {
     fetchData()
   }, [])
 
-  const processData = (rows: DonationRow[]) => {
+  // Re-process data when mode changes
+  useEffect(() => {
+    if (rawData.length > 0) {
+      processData(rawData, mode)
+    }
+  }, [mode, rawData])
+
+  const processData = (rows: DonationRow[], currentMode: 'amount' | 'count') => {
     const areas = new Map<string, number>()
     const occupations = new Map<string, number>()
     let totalAmount = 0
+    let totalCount = 0
 
     const areaToOcc: Record<string, Record<string, number>> = {}
 
@@ -93,16 +107,20 @@ export default function DonationChart() {
       const area = row.area.trim()
       const occ = row.occupation.trim()
 
-      totalAmount += amount
+      const value = currentMode === 'amount' ? amount : 1
 
-      areas.set(area, (areas.get(area) || 0) + amount)
-      occupations.set(occ, (occupations.get(occ) || 0) + amount)
+      totalAmount += amount
+      totalCount += 1
+
+      areas.set(area, (areas.get(area) || 0) + value)
+      occupations.set(occ, (occupations.get(occ) || 0) + value)
 
       if (!areaToOcc[area]) areaToOcc[area] = {}
-      areaToOcc[area][occ] = (areaToOcc[area][occ] || 0) + amount
+      areaToOcc[area][occ] = (areaToOcc[area][occ] || 0) + value
     })
 
     setGrandTotal(totalAmount)
+    setGrandTotalCount(totalCount)
 
     // ソートロジック（ここは元のままで正しく動作します）
     const sortByValueWithOtherLast = (map: Map<string, number>) => {
@@ -157,7 +175,10 @@ export default function DonationChart() {
 
     const column = getColumnType(x, containerWidth)
     const fill = getColor(index, column)
-    const percentageVal = grandTotal > 0 && payload.value ? (payload.value / grandTotal) * 100 : 0
+
+    // Percent calculation based on mode
+    const totalValue = mode === 'amount' ? grandTotal : grandTotalCount
+    const percentageVal = totalValue > 0 && payload.value ? (payload.value / totalValue) * 100 : 0
 
     const isNodeTooSmall = height < 10
     const isPercentageTiny = percentageVal < 1.0
@@ -213,6 +234,11 @@ export default function DonationChart() {
     )
   }
 
+  const formatValue = (value: number) => {
+    if (mode === 'amount') return `¥${value.toLocaleString()}`
+    return `${value.toLocaleString()}人`
+  }
+
   if (loading) {
     return (
       <div className="flex h-64 w-full items-center justify-center bg-gray-50 rounded-lg border border-gray-100">
@@ -238,16 +264,54 @@ export default function DonationChart() {
   return (
     <div className="w-full bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
       <div className="bg-ws-primary p-4 text-white">
-        <div className="flex justify-between items-center">
-          <h3 className="text-sm font-bold tracking-tight flex items-center gap-2">
-            <div className="w-1 h-3 bg-white rounded-full"></div>
-            政治資金レポート
-          </h3>
-          <div className="text-right">
-            <p className="text-sm font-bold leading-none">
-              ¥{(grandTotal / 10000).toLocaleString()}万
-            </p>
+        <div className="flex flex-col gap-4">
+          {/* Top Row: Title & Totals */}
+          <div className="flex justify-between items-start">
+            <h3 className="text-sm font-bold tracking-tight flex items-center gap-2 mt-1">
+              <div className="w-1 h-3 bg-white rounded-full"></div>
+              政治資金レポート
+            </h3>
           </div>
+          <div className="text-center justify-center gap-8 flex items-end">
+            <div className="flex items-baseline gap-1">
+              <span className="text-[10px] opacity-80">総額</span>
+              <span className="text-sm font-bold leading-none">
+                ¥{(grandTotal / 10000).toLocaleString()}万
+              </span>
+            </div>
+            <div className="flex items-baseline gap-1 mt-1">
+              <span className="text-[10px] opacity-80">総人数</span>
+              <span className="text-sm font-bold leading-none">
+                {grandTotalCount.toLocaleString()}人
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Controls Row: Toggle Slider */}
+      <div className="flex w-full bg-ws-primary">
+        <div className="bg-blue-900/30 w-full flex gap-1 items-center">
+          <button
+            onClick={() => setMode('count')}
+            className={`px-3 py-1 rounded rounded-b-none w-1/2 text-[10px] font-bold transition-all ${
+              mode === 'count'
+                ? 'bg-white text-blue-600 shadow-sm'
+                : 'text-white/70 hover:text-white'
+            }`}
+          >
+            人数ベース
+          </button>
+          <button
+            onClick={() => setMode('amount')}
+            className={`px-3 py-1 rounded rounded-b-none w-1/2 text-[10px] font-bold transition-all ${
+              mode === 'amount'
+                ? 'bg-white text-blue-600 shadow-sm'
+                : 'text-white/70 hover:text-white'
+            }`}
+          >
+            金額ベース
+          </button>
         </div>
       </div>
 
@@ -287,7 +351,7 @@ export default function DonationChart() {
                 formatter={(value: any, name: any, props: any) => {
                   if (props && props.payload && props.payload.source && props.payload.target) {
                     return [
-                      `¥${Number(value).toLocaleString()}`,
+                      formatValue(Number(value)),
                       <div
                         key="label"
                         className="mt-1 pb-1 border-b border-gray-100 mb-1 text-gray-500 font-normal"
@@ -297,7 +361,7 @@ export default function DonationChart() {
                       </div>,
                     ]
                   }
-                  return [`¥${Number(value).toLocaleString()}`, name]
+                  return [formatValue(Number(value)), name]
                 }}
               />
             </Sankey>

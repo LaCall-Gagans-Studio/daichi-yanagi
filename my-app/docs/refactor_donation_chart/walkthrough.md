@@ -11,7 +11,9 @@ To transform the basic Sankey chart into a professional, high-quality visualizat
 - **Layout**: Implemented a **mobile-first responsive design** that works perfectly even in narrow columns on laptops.
   - **Margins**: Extremely tight (`10px`) to maximize data display area.
   - **Aspect Ratio**: Taller (`4:5`) to act more like a list, suitable for vertical scrolling contexts.
-- **Header Design**: Redesigned the header with a **modern card style** featuring a dark gradient background and a prominent Grand Total display.
+- **Header Design**: Redesigned the header with a **modern card style** featuring a dark gradient background.
+  - **Dual Totals**: Displays both **Total Amount** (e.g., ¥5,000万) and **Total Persons** (e.g., 1,500人).
+  - **Toggle Control**: Added a switch to toggle the entire chart between **Amount Base** (金額) and **Count Base** (人数).
 - **Color Palette**: Adopted a semantic color scheme:
   - **Source (Nationality)**: Blue/Green tones (Trust, Stability)
   - **Middle (Area)**: Neutral/Bridge tones (Gray, Purple)

@@ -40,6 +40,12 @@ export default function HomeGrids() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  // Infinite Scroll State
+  const [page, setPage] = useState(1)
+  const [hasNextPage, setHasNextPage] = useState(true)
+  const [isFetchingMore, setIsFetchingMore] = useState(false)
+  const observerTarget = React.useRef<HTMLDivElement>(null)
+
   // 詳細モーダル（共通）
   const [selected, setSelected] = useState<SelectedEntry>(null)
   // CTA 用モーダル
@@ -48,16 +54,18 @@ export default function HomeGrids() {
   // 1024px (lg) 以上でのみ表示・動作させる
   const isDesktop = useMediaQuery('(min-width: 1024px)')
 
+  // Initial Fetch
   useEffect(() => {
-    // モバイル(非表示)ならフェッチしない
     if (!isDesktop) return
 
     let alive = true
     ;(async () => {
       try {
-        const res = await fetchComments(60)
+        const res = await fetchComments(60, 1)
         if (!alive) return
         setItems(res.docs)
+        setHasNextPage(res.hasNextPage)
+        setPage(1)
       } catch (e: any) {
         if (alive) setError(e?.message ?? 'Error')
       } finally {
@@ -67,7 +75,50 @@ export default function HomeGrids() {
     return () => {
       alive = false
     }
-  }, [isDesktop]) // isDesktop が true になった瞬間にロード開始
+  }, [isDesktop])
+
+  // Load More Function
+  const loadMore = React.useCallback(async () => {
+    if (isFetchingMore || !hasNextPage) return
+
+    setIsFetchingMore(true)
+    try {
+      const nextPage = page + 1
+      const res = await fetchComments(60, nextPage)
+
+      setItems((prev) => [...prev, ...res.docs])
+      setHasNextPage(res.hasNextPage)
+      setPage(nextPage)
+    } catch (e) {
+      // Error handling for load more (silent or toast)
+      console.error('Failed to load more comments', e)
+    } finally {
+      setIsFetchingMore(false)
+    }
+  }, [page, hasNextPage, isFetchingMore])
+
+  // Intersection Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !loading && hasNextPage) {
+          loadMore()
+        }
+      },
+      { threshold: 0.1 },
+    )
+
+    const currentTarget = observerTarget.current
+    if (currentTarget) {
+      observer.observe(currentTarget)
+    }
+
+    return () => {
+      if (currentTarget) {
+        observer.unobserve(currentTarget)
+      }
+    }
+  }, [observerTarget, loading, hasNextPage, loadMore])
 
   const cols = 6
 
@@ -126,8 +177,11 @@ export default function HomeGrids() {
                 setOpen={setOpenForm}
                 afterSubmit={async () => {
                   try {
-                    const res = await fetchComments(60)
+                    // Reset to initial state on submit
+                    const res = await fetchComments(60, 1)
                     setItems(res.docs)
+                    setPage(1)
+                    setHasNextPage(res.hasNextPage)
                   } catch {
                     // 失敗してもグリッドはそのまま
                   }
@@ -153,6 +207,15 @@ export default function HomeGrids() {
           return null
         })}
       </div>
+
+      {/* Loading Sentinel */}
+      {hasNextPage && (
+        <div ref={observerTarget} className="w-full h-20 flex items-center justify-center p-4">
+          {isFetchingMore && (
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-white border-t-transparent" />
+          )}
+        </div>
+      )}
 
       {/* 詳細（共通） */}
       <DetailDialog selected={selected} onOpenChange={(o) => !o && setSelected(null)} />
@@ -209,15 +272,15 @@ function CtaTile({
     <div className={`aspect-square ${baseBg}`}>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="bg-ws-primary rounded-none text-wrap flex flex-col text-sm lg:text-xs w-full h-full text-black hover:bg-white">
-            <p className="text-[12px] lg:text-[11px] text-center">
+          <Button className="bg-ws-primary group rounded-none text-wrap flex flex-col text-sm lg:text-xs w-full h-full text-white hover:bg-white hover:text-black">
+            <p className="text-[12px] font-extrabold lg:text-[11px] text-center">
               あなたの声が、
               <br />
               まちをつくる。
               <br />
             </p>
 
-            <span className="p-1 lg:p-0 border-black border-2 text-xs inline-flex items-center">
+            <span className="p-1 lg:p-0 border-white group-hover:border-black border-2 text-xs inline-flex items-center">
               <LuChevronLeft className="lg:hidden" />
               コメントする
             </span>

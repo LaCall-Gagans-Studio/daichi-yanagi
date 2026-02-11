@@ -11,9 +11,9 @@ export default async function HomeLinks() {
         <InnerLinksList />
 
         {/* SNS */}
-        <ul className="relative pt-12 pb-6 pl-6 grid grid-cols-2 gap-y-2 gap-x-1">
+        <ul className="relative pt-12 pb-6 pl-6 flex flex-wrap gap-y-2 gap-x-1">
           {snsLinks.map((sns) => (
-            <li key={sns.name} className="w-10 h-10">
+            <li key={sns.name} className="w-8 h-8">
               <a
                 href={sns.url}
                 target="_blank"

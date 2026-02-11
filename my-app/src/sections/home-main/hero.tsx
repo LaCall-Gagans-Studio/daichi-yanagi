@@ -40,44 +40,54 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
           priority
           className="object-cover object-bottom -z-10"
         />
-        <div className="absolute">
-          <div className="bg-ws-background/30 border-black p-3 py-4 border-3 text-black">
+        {/* タイトル - フェードイン&スライドアップアニメーション */}
+        <div className="absolute animate-[fadeInUp_0.8s_ease-out]">
+          <div className="bg-ws-background/30 border-black p-3 py-4 border-3 text-black backdrop-blur-sm">
             <h1 className="text-4xl mb-1 font-bold leading-tight tracking-tight">
               みんなで動かす、
               <br />
               鳥取市。
             </h1>
-            <p className="text-xs text-nowrap font-bold">〜このまちの主人公は、あなただ〜</p>
+            <p className="text-xs text-nowrap font-bold animate-[fadeIn_1s_ease-out_0.3s_both]">
+              〜このまちの主人公は、あなただ〜
+            </p>
           </div>
         </div>
 
+        {/* 候補者カード&ボタン - スライドアップアニメーション */}
         <div className="absolute gap-2 gap-x-3 inset-x-4 grid inset-y-3/4 duration-300">
-          <div className="bg-ws-background rounded-2xl col-span-2 p-4 py-6 pt-7 border-2 border-ws-primary">
+          <div className="bg-ws-background rounded-2xl col-span-2 p-4 py-6 pt-7 border-2 border-ws-primary shadow-lg animate-[slideInUp_0.8s_ease-out_0.2s_both] hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
             <div className="flex items-center justify-center gap-3">
-              <div className="flex flex-col gap-1 justify-end grow-3 text-right">
+              <div className="flex flex-col gap-1 justify-end grow-3 text-right animate-[fadeIn_0.8s_ease-out_0.5s_both]">
                 <p className="leading-tight font-medium">無所属</p>
               </div>
 
               <h1 className="text-ws-primary font-bold grow-6 flex items-end gap-2">
-                <ruby className="text-6xl leading-none">
+                <ruby className="text-6xl leading-none animate-[slideInLeft_0.6s_ease-out_0.4s_both]">
                   柳<rt className="text-[0.6rem] tracking-wider text-ws-primary/90">やなぎ</rt>
                 </ruby>
-                <ruby className="text-5xl leading-none pb-[2px]">
+                <ruby className="text-5xl leading-none pb-[2px] animate-[slideInLeft_0.6s_ease-out_0.5s_both]">
                   大地<rt className="text-[0.55rem] tracking-wider text-ws-primary/90">だいち</rt>
                 </ruby>
               </h1>
             </div>
 
             <div className="flex flex-wrap px-4 mt-2 gap-2 gap-y-1 [&>*]:border-ws-primary [&>*]:text-ws-primary [&>*]:bg-white [&>*]:hover:bg-ws-primary [&>*]:hover:text-white cursor-pointer duration-300">
-              {candidate.themes.map((t) => (
-                <Badge key={t}>{t}</Badge>
+              {candidate.themes.map((t, i) => (
+                <Badge
+                  key={t}
+                  className="animate-[scaleIn_0.4s_ease-out_both] hover:scale-110 transition-transform"
+                  style={{ animationDelay: `${0.6 + i * 0.1}s` }}
+                >
+                  {t}
+                </Badge>
               ))}
             </div>
           </div>
 
           <Button
             asChild
-            className="bg-ws-primary  text-ws-background hover:bg-ws-background text-lg"
+            className="bg-ws-primary text-ws-background hover:bg-ws-background text-lg animate-[slideInUp_0.6s_ease-out_0.5s_both] hover:scale-105 active:scale-95 transition-all shadow-md hover:shadow-lg"
           >
             <Link
               href="#policy"
@@ -85,16 +95,16 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
                 e.preventDefault()
                 document.querySelector('#policy')?.scrollIntoView({ behavior: 'smooth' })
               }}
-              className="hover:text-ws-primary  text-white py-5 border-2 border-ws-primary"
+              className="hover:text-ws-primary text-white py-5 border-2 border-ws-primary group"
             >
-              <LuBookOpen className="mr-2" />
+              <LuBookOpen className="mr-2 group-hover:rotate-12 transition-transform" />
               政策を見る
             </Link>
           </Button>
 
           <Button
             asChild
-            className="bg-ws-background text-ws-background hover:bg-ws-ws-primary text-lg"
+            className="bg-ws-background text-ws-background hover:bg-ws-ws-primary text-lg animate-[slideInUp_0.6s_ease-out_0.6s_both] hover:scale-105 active:scale-95 transition-all shadow-md hover:shadow-lg"
           >
             <Link
               href="#support"
@@ -102,9 +112,9 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
                 e.preventDefault()
                 document.querySelector('#support')?.scrollIntoView({ behavior: 'smooth' })
               }}
-              className="text-ws-primary hover:text-ws-background py-5 border-2 border-ws-primary hover:bg-ws-primary"
+              className="text-ws-primary hover:text-ws-background py-5 border-2 border-ws-primary hover:bg-ws-primary group"
             >
-              <LuHandHeart className="mr-2" />
+              <LuHandHeart className="mr-2 group-hover:scale-110 transition-transform" />
               応援する
             </Link>
           </Button>

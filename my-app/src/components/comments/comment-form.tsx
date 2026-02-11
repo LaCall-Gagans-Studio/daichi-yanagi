@@ -122,7 +122,7 @@ export function CommentForm({ onSubmitted }: CommentFormProps) {
         placeholder="ニックネーム（必須）"
         value={form.accountId}
         onChange={onChange}
-        className="w-full border rounded px-2 py-1"
+        className="w-full border rounded px-2 py-1 text-black bg-white"
       />
 
       <textarea
@@ -130,7 +130,7 @@ export function CommentForm({ onSubmitted }: CommentFormProps) {
         placeholder="コメント（必須）"
         value={form.comment}
         onChange={onChange}
-        className="w-full border rounded px-2 py-2"
+        className="w-full border rounded px-2 py-2 text-black bg-white"
         rows={4}
       />
 
@@ -144,13 +144,13 @@ export function CommentForm({ onSubmitted }: CommentFormProps) {
           placeholder="年齢（任意）"
           value={form.age}
           onChange={onChange}
-          className="border rounded px-2 py-1"
+          className="border rounded px-2 py-1 text-black bg-white"
         />
         <select
           name="gender"
           value={form.gender}
           onChange={onChange}
-          className="border rounded px-2 py-1"
+          className="border rounded px-2 py-1 text-black bg-white"
         >
           <option value="unspecified">未回答</option>
           <option value="male">男性</option>
@@ -163,14 +163,14 @@ export function CommentForm({ onSubmitted }: CommentFormProps) {
           placeholder="職業（任意）"
           value={form.occupation}
           onChange={onChange}
-          className="border rounded px-2 py-1"
+          className="border rounded px-2 py-1 text-black bg-white"
         />
         <input
           name="district"
           placeholder="居住地区（任意）"
           value={form.district}
           onChange={onChange}
-          className="border rounded px-2 py-1"
+          className="border rounded px-2 py-1 text-black bg-white"
         />
       </div>
 

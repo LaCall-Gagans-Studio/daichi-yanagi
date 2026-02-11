@@ -212,7 +212,7 @@ export default function Grids() {
                   const col = globalIndex % PAGE_COLS
                   const isPrimary =
                     (row % 2 === 0 && col % 2 === 0) || (row % 2 === 1 && col % 2 === 1)
-                  const baseBg = isPrimary ? 'bg-white' : 'bg-ws-primary'
+                  const baseBg = isPrimary ? 'bg-white' : 'bg-ws-primary text-white'
 
                   // 現在のページとその前後以外は中身を描画しない (DOM削減)
                   const isVisible = Math.abs(pageIndex - page) <= 1

@@ -47,17 +47,17 @@ export function CommentTile({
             className="w-4 h-4 object-contain"
           />
           <div className="gap-0 space-y-0 ml-2 leading-tight">
-            <p className="text-[9px] md:text-[11px] font-semibold text-black leading-none line-clamp-1">
+            <p className="text-[9px] md:text-[11px] font-semibold leading-none line-clamp-1">
               {meta.accountId || '匿名'}
             </p>
-            <p className="text-[9px] md:text-[10px] mt-0.5 text-black line-clamp-1">
+            <p className="text-[9px] md:text-[10px] mt-0.5 line-clamp-1">
               {genderLabel(meta.gender)}・{ageLabel(meta.age)}・{districtLabel(meta.district)}
             </p>
           </div>
         </div>
         <div className="mt-1 lg:mt-0.5 flex-1">
           <p
-            className={`text-[11px] md:text-xs text-black leading-snug line-clamp-3 lg:line-clamp-2 2xl:line-clamp-3`}
+            className={`text-24md:text-[11px] font-medium md:text-xs leading-snug line-clamp-3 lg:line-clamp-2 2xl:line-clamp-3`}
           >
             {text}
           </p>

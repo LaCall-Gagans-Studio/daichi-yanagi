@@ -7,6 +7,12 @@ import Image from 'next/image'
 
 // icons
 import { LuSend } from 'react-icons/lu'
+import dynamic from 'next/dynamic'
+
+const DonationChart = dynamic(() => import('@/components/ui/DonationChart'), {
+  ssr: false,
+  loading: () => <p className="text-center">チャートを読み込み中です...</p>,
+})
 
 export default function Support() {
   return (
@@ -33,7 +39,13 @@ export default function Support() {
 
       {/* イメージエリア（任意の差し替えOK） */}
       <div className="flex justify-center">
-        <img src="/support_figure.webp" alt="ボランティアのイメージ" className="object-cover" />
+        <Image
+          src="/support_figure.webp"
+          alt="ボランティアのイメージ"
+          width={600}
+          height={400}
+          className="object-cover"
+        />
       </div>
 
       {/* コンテンツ本文 */}
@@ -59,6 +71,20 @@ export default function Support() {
             </Button>
           </div>
         </div>
+      </div>
+
+      {/* 見出し */}
+      <div className="flex flex-col items-center justify-between mt-20">
+        <h2 className="text-xl text-center text-black flex items-center gap-2">
+          <LuSend />
+          寄付・献金
+        </h2>
+        <p className="text-sm font-bold text-center text-ws-primary">政治資金の流れ</p>
+      </div>
+
+      {/* 寄付・献金チャート */}
+      <div className="w-full mt-4">
+        <DonationChart />
       </div>
     </section>
   )

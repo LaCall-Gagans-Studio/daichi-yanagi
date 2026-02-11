@@ -113,7 +113,7 @@ export default function HomeGrids() {
           const row = Math.floor(i / cols)
           const col = i % cols
           const isPrimary = (row % 2 === 0 && col % 2 === 0) || (row % 2 === 1 && col % 2 === 1)
-          const baseBg = isPrimary ? 'bg-white' : 'bg-ws-primary'
+          const baseBg = isPrimary ? 'bg-white' : 'bg-ws-primary text-white'
 
           // CTA
           if ('kind' in cell && cell.kind === 'cta') {

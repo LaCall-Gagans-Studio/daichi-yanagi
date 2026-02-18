@@ -1,13 +1,18 @@
-// app/layout.tsx（抜粋）
 import React from 'react'
 import type { Metadata } from 'next'
 import Script from 'next/script'
+import { Zen_Maru_Gothic } from 'next/font/google'
 import './styles.css'
-import { Analytics } from '@vercel/analytics/next'
-import { YouTubePlaylist } from '@/components/youtube-playlist'
 
 import HomeGrids from '@/sections/home-grids'
 import HomeLinks from '@/sections/home-links'
+
+const zenMaru = Zen_Maru_Gothic({
+  weight: ['400', '500', '700'],
+  subsets: ['latin'],
+  variable: '--font-zen-maru-source',
+  display: 'swap',
+})
 
 const siteName = '柳大地 公式サイト | Tottori Update Challenge'
 const siteUrl = 'https://daichi-yanagi.com' // ← 公開ドメインに差し替え
@@ -124,7 +129,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   }
 
   return (
-    <html lang="ja">
+    <html lang="ja" className={`${zenMaru.variable}`}>
       <head>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-17892076374"
@@ -175,7 +180,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
         />
 
-        <main className="w-screen h-screen font-kosugi">
+        <main className="w-screen h-screen font-zen-maru">
           <div className="text-black flex w-full h-full">
             <div id="home-grids" className="bg-ws-primary grow w-1/4 hidden lg:block">
               {/* LCP向上: 非同期でもOKな軽量グリッドはそのまま */}

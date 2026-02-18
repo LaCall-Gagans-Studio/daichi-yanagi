@@ -170,13 +170,13 @@ export default function Grids() {
 
   return (
     // スマホ優先表示
-    <div className="block lg:hidden w-full bg-ws-primary relative font-zen my-12 py-6">
+    <div className="block lg:hidden w-full bg-ws-primary relative  my-12 py-6">
       <div className="flex flex-col items-center justify-between my-6">
-        <h2 className="text-2xl text-center text-black flex items-center gap-2">
+        <h2 className="text-2xl text-center text-white flex items-center gap-2">
           <LuNewspaper />
           Voice
         </h2>
-        <p className="text-sm font-medium text-center text-black">みんなの声</p>
+        <p className="text-sm font-medium text-center text-white">みんなの声</p>
       </div>
 
       {/* 横スクロール・ページャブル領域 */}

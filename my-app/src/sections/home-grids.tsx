@@ -153,7 +153,7 @@ export default function HomeGrids() {
   if (!isDesktop) return null
 
   return (
-    <div className="w-full h-full bg-ws-primary relative font-zen overflow-y-auto border-ws-background border-r">
+    <div className="w-full h-full bg-ws-primary relative overflow-y-auto border-ws-background border-r">
       {error && (
         <div className="p-2 text-xs text-red-600">読み込み中にエラーが発生しました：{error}</div>
       )}

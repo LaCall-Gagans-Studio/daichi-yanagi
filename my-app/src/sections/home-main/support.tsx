@@ -67,7 +67,7 @@ export default function Support() {
                 shadow-md rounded-full px-6 py-2 text-sm
               "
             >
-              <Link href="https://forms.gle/GmvVToNFBngsUuyJ9">ボランティア登録へ</Link>
+              <Link href="https://lin.ee/J6BvSyy">ボランティア登録へ（公式LINE）</Link>
             </Button>
           </div>
         </div>
@@ -83,8 +83,24 @@ export default function Support() {
       </div>
 
       {/* 寄付・献金チャート */}
-      <div className="w-full mt-12">
+      <div className="w-full mt-8">
         <DonationChart />
+      </div>
+      <div className="mt-8 flex flex-col items-center">
+        <p className="text-sm text-center">
+          チーム柳ダイチでは、
+          <br />
+          寄付を通じて政治資金を確保し、
+          <br />
+          そのすべてを見えるかして公開しています。
+        </p>
+        <Button
+          asChild
+          variant="outline"
+          className=" border-ws-primary/30 text-ws-primary hover:bg-ws-primary/10 my-4"
+        >
+          <Link href="https://go2senkyo.com/donate/flow/185804">寄付ページへ</Link>
+        </Button>
       </div>
     </section>
   )

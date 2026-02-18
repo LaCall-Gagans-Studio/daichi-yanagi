@@ -32,10 +32,10 @@ export default async function HomePage() {
     <div className="w-full h-full bg-white relative text-ws-primary overflow-y-auto">
       <main className="">
         {/* --- HERO --- */}
-        <Hero events={events} candidate={candidate} />
-        <HeroNotice />
+        <Hero events={events} candidate={candidate} snsLinks={snsLinks} />
 
         <div className="px-4 mb-8">
+          <HeroNotice />
           <YouTubePlaylist />
         </div>
 

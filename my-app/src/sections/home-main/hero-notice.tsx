@@ -17,7 +17,7 @@ export function HeroNotice() {
   const [open, setOpen] = useState(false)
 
   return (
-    <section className="px-4 mt-6 relative z-10 mb-8 max-w-md mx-auto w-full">
+    <section className=" mt-48 mb-3 relative z-10 max-w-md mx-auto w-full">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Card className="bg-linear-to-br from-ws-primary to-ws-primary/80 border-none text-white shadow-lg cursor-pointer hover:scale-[1.02] transition-transform duration-200 group">

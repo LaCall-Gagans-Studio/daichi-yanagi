@@ -16,10 +16,21 @@ import {
   LuCalendarPlus,
   LuClock3,
 } from 'react-icons/lu'
+import { SiLine, SiNotion } from 'react-icons/si'
 import { type CampaignEvent, formatJa, googleCalendarUrl } from '@/lib/schedule'
 import type { CandidateData } from '@/lib/candidate'
+import type { SocialLink } from '@/lib/sns-links'
+import { HeroNotice } from './hero-notice'
 
-export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate: CandidateData }) {
+export function Hero({
+  events,
+  candidate,
+  snsLinks,
+}: {
+  events: CampaignEvent[]
+  candidate: CandidateData
+  snsLinks: SocialLink[]
+}) {
   const allEvents = [...events].sort(
     (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
   )
@@ -116,6 +127,42 @@ export function Hero({ events, candidate }: { events: CampaignEvent[]; candidate
             >
               <LuHandHeart className="mr-2 group-hover:scale-110 transition-transform" />
               応援する
+            </Link>
+          </Button>
+
+          {/* 公式LINE */}
+          <Button
+            asChild
+            className="bg-[#06C755] text-white hover:bg-[#06C755]/90 text-lg animate-[slideInUp_0.6s_ease-out_0.7s_both] hover:scale-105 active:scale-95 transition-all shadow-md hover:shadow-lg"
+          >
+            <Link
+              href={snsLinks.find((s) => s.name === 'LINE' || s.name === '公式LINE')?.url || '#'}
+              target="_blank"
+              rel="noreferrer"
+              className="py-5 border-2 border-[#06C755] group"
+            >
+              <SiLine className="mr-2 group-hover:scale-110 transition-transform" />
+              公式LINE
+            </Link>
+          </Button>
+
+          {/* 公式Wiki */}
+          <Button
+            asChild
+            className="bg-white text-black hover:bg-white/80 text-lg animate-[slideInUp_0.6s_ease-out_0.8s_both] hover:scale-105 active:scale-95 transition-all shadow-md hover:shadow-lg"
+          >
+            <Link
+              href={
+                snsLinks.find(
+                  (s) => s.name === 'Wiki' || s.name === 'Notion' || s.name.includes('Wiki'),
+                )?.url || '#'
+              }
+              target="_blank"
+              rel="noreferrer"
+              className="py-5 border-2 border-black group"
+            >
+              <SiNotion className="mr-2 group-hover:scale-110 transition-transform" />
+              公式Wiki
             </Link>
           </Button>
         </div>

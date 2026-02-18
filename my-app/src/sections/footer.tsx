@@ -20,7 +20,7 @@ export function Footer({ snsLinks }: { snsLinks: SocialLink[] }) {
         variant="outline"
         className="border-ws-primary/30 text-ws-primary hover:bg-ws-primary/10 my-4"
       >
-        <Link href="https://forms.gle/Tox169NxpM5nNRtQ7">お問い合わせ</Link>
+        <Link href="https://lin.ee/J6BvSyy">LINEでお問い合わせ</Link>
       </Button>
 
       <h2 className="text-base mt-10 font-semibold">柳大地 公式SNS</h2>

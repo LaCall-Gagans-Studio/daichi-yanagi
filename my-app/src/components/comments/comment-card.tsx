@@ -73,8 +73,10 @@ export function CommentTile({
                 className.includes('bg-ws-primary') ? 'text-white' : 'text-ws-primary'
               }`}
             >
-              <LuHeart className={`w-2 h-2 md:w-3 md:h-3 fill-current`} />
-              <span className="text-[8px] font-medium tabular-nums">{meta.hearts}</span>
+              <LuHeart className={`w-5 h-5 md:w-3 md:h-3 fill-current`} />
+              <span className="md:text-[8px] text-[12px] font-medium tabular-nums">
+                {meta.hearts}
+              </span>
             </div>
           )
         }

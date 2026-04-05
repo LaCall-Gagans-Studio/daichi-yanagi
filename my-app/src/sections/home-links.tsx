@@ -8,7 +8,7 @@ export default async function HomeLinks() {
     <div className="w-full h-full relative">
       <section className="absolute bottom-0 left-0">
         {/* サイト内リンク */}
-        <InnerLinksList />
+        {/* <InnerLinksList /> */}
 
         {/* SNS */}
         <ul className="relative pt-12 pb-6 pl-6 flex flex-wrap gap-y-2 gap-x-1">

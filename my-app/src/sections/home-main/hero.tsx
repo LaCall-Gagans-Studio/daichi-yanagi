@@ -54,6 +54,7 @@ export function Hero({
         {/* タイトル - フェードイン&スライドアップアニメーション */}
         <div className="absolute animate-[fadeInUp_0.8s_ease-out]">
           <div className="bg-ws-background/30 border-black p-3 py-4 border-3 text-black backdrop-blur-sm">
+            {/* 
             <h1 className="text-4xl mb-1 font-bold leading-tight tracking-tight">
               みんなで動かす、
               <br />
@@ -61,6 +62,19 @@ export function Hero({
             </h1>
             <p className="text-xs text-nowrap font-bold animate-[fadeIn_1s_ease-out_0.3s_both]">
               〜このまちの主人公は、あなただ〜
+            </p>
+            */}
+            <h1 className="text-2xl mb-2 font-bold leading-tight tracking-tight">
+              たくさんのご支援
+              <br />
+              ありがとうございました
+            </h1>
+            <p className="text-sm font-bold animate-[fadeIn_1s_ease-out_0.3s_both] leading-relaxed">
+              次の挑戦に向けて、
+              <br />
+              一歩ずつ活動して参ります。
+              <br />
+              リニューアルまでしばらくお待ちください。
             </p>
           </div>
         </div>
@@ -96,6 +110,7 @@ export function Hero({
             </div>
           </div>
 
+          {/*
           <Button
             asChild
             className="bg-ws-primary text-ws-background hover:bg-ws-background text-lg animate-[slideInUp_0.6s_ease-out_0.5s_both] hover:scale-105 active:scale-95 transition-all shadow-md hover:shadow-lg"
@@ -129,6 +144,7 @@ export function Hero({
               応援する
             </Link>
           </Button>
+          */}
 
           {/* 公式LINE */}
           <Button

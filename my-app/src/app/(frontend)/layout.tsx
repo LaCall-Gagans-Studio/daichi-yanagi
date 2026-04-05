@@ -180,18 +180,19 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
         />
 
-        <main className="w-screen h-screen font-zen-maru">
-          <div className="text-black flex w-full h-full">
+        <main className="w-screen h-screen font-zen-maru bg-ws-primary">
+          <div className="text-black flex justify-center w-full h-full relative">
+            {/*休眠中につき非表示
             <div id="home-grids" className="bg-ws-primary grow w-1/4 hidden lg:block">
-              {/* LCP向上: 非同期でもOKな軽量グリッドはそのまま */}
               <HomeGrids />
             </div>
-            <div id="home-main" className="bg-white overflow-y-scroll w-full lg:w-sm">
+            */}
+            <div id="home-main" className="bg-white overflow-y-scroll w-full lg:w-sm shadow-xl z-20">
               {children}
             </div>
             <div
               id="home-links"
-              className="bg-ws-primary hidden w-1/5 lg:flex flex-col justify-end relative"
+              className="hidden lg:flex absolute right-0 bottom-0 w-1/5 h-full flex-col justify-end z-10"
             >
               <HomeLinks />
             </div>

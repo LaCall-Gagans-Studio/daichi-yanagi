@@ -8,6 +8,7 @@ import type { SocialLink } from '@/lib/sns-links'
 export function Footer({ snsLinks }: { snsLinks: SocialLink[] }) {
   return (
     <footer className="space-y-2 pb-6 px-5 flex flex-col items-center mt-16">
+      {/* 
       <LuMessageSquareMore className="text-7xl" />
       <h2 className="text-base font-semibold">お問い合わせ</h2>
       <p className="text-sm text-center">
@@ -22,6 +23,7 @@ export function Footer({ snsLinks }: { snsLinks: SocialLink[] }) {
       >
         <Link href="https://lin.ee/J6BvSyy">LINEでお問い合わせ</Link>
       </Button>
+      */}
 
       <h2 className="text-base mt-10 font-semibold">柳大地 公式SNS</h2>
       <ul className="px-3 mt-2 grid grid-cols-4 gap-6">

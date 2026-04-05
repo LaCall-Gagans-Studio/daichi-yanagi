@@ -34,28 +34,28 @@ export default async function HomePage() {
         {/* --- HERO --- */}
         <Hero events={events} candidate={candidate} snsLinks={snsLinks} />
 
-        <div className="px-4 mb-8">
+        {/* <div className="px-4 mb-8">
           <HeroNotice />
           <YouTubePlaylist />
-        </div>
+        </div> */}
 
         {/* --- Grids --- */}
-        <Grids />
+        {/* <Grids /> */}
 
         {/* --- NEWS --- */}
         {/* <News items={news} /> */}
 
         {/* --- CANDIDATE --- */}
-        <Candidate candidate={candidate} />
+        {/* <Candidate candidate={candidate} /> */}
 
         {/* --- VISION --- */}
-        <Vision vision={candidate.vision} />
+        {/* <Vision vision={candidate.vision} /> */}
 
         {/* --- POLICY --- */}
-        <Policy themes={themes} />
+        {/* <Policy themes={themes} /> */}
 
         {/* --- CTA --- */}
-        <Support />
+        {/* <Support /> */}
 
         {/* --- FOOTER --- */}
         <Footer snsLinks={snsLinks} />
